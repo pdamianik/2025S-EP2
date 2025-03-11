@@ -21,10 +21,8 @@ public class BrailleEncoder implements AB1.Interfaces.Encoder {
      * The LUT must be used by the class method {@code toBinary}.
      */
     private static final byte[] brailleLUT = {
-            0b000001, 0b000011, 0b001001, 0b011001, 0b010001   // a-e
-            // TODO: complete the array: add binary representation for letters f-z
-            //       for details on the Braille alphabet see
-            //       https://de.wikipedia.org/w/index.php?title=Brailleschrift#Systematik_des_Punkteaufbaus
+            0b000001, 0b000011, 0b001001, 0b011001, 0b010001,   // a-e
+            0b001011, 0b011011, 0b010011, 0b001010, 0b011010,   // f-j
     };
 
     /**
