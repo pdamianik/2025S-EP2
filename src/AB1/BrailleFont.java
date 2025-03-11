@@ -9,11 +9,9 @@ import AB1.Interfaces.Encoder;
  */
 public class BrailleFont implements AB1.Interfaces.Font {
 
-    // TODO: choose appropriate access modifier (public/private)
-    public final int height;   // height of characters
+    private final int height;   // height of characters
 
-    // TODO: choose appropriate access modifier (public/private)
-    public final int width;    // width of characters (remark: font is monospaced)
+    private final int width;    // width of characters (remark: font is monospaced)
 
     /**
      * A 3-dimensional array containing printable Braille characters (bitmaps) in ascending alphabetic order.
@@ -24,16 +22,14 @@ public class BrailleFont implements AB1.Interfaces.Font {
      * Other characters, such as white space, are handled separately.</p>
      *
      */
-    // TODO: choose appropriate access modifier (public/private)
-    public final char[][][] lowerCaseLetters;    // bitmaps for all lowercase letters
+    private final char[][][] lowerCaseLetters;    // bitmaps for all lowercase letters
 
     /**
      * Represents the white space character .
      * <p>This array provides a printable representation (bitmap) of a white space within Braille texts.</p>
      * <p>The array is initialized during the construction of the {@code BrailleFont} object.</p>
      */
-    // TODO: choose appropriate access modifier (public/private)
-    public final char[][] whiteSpace;    // bitmap for the white space character (contains space symbols only)
+    private final char[][] whiteSpace;    // bitmap for the white space character (contains space symbols only)
 
 
     /**
@@ -46,7 +42,6 @@ public class BrailleFont implements AB1.Interfaces.Font {
      * @param encoder       the Braille encoder ({@code class BrailleEncoder}) used to calculate the font's bitmaps at construction time.
      *                      <p>Precondition: (encoder != null)</p>
      */
-    // TODO: choose appropriate access modifier (public/private)
     public BrailleFont(int height, int width, char dotSymbol, char spaceSymbol, Encoder encoder) {
         // TODO: implementation
     }
@@ -60,7 +55,6 @@ public class BrailleFont implements AB1.Interfaces.Font {
      *         For letters, it returns the corresponding lowercase printable character from array {@code lowerCaseLetters[]}.
      *         For non-letters, it returns the representation of a white space ({@code whiteSpace}).
      */
-    // TODO: choose appropriate access modifier (public/private)
     @Override
     public char[][] getBitmap(char character) {
         // TODO: implementation
@@ -72,7 +66,6 @@ public class BrailleFont implements AB1.Interfaces.Font {
      *
      * @return the number of rows of a character's bitmap.
      */
-    // TODO: choose appropriate access modifier (public/private)
     @Override
     public int getHeight(){
         // TODO: implementation
@@ -83,7 +76,6 @@ public class BrailleFont implements AB1.Interfaces.Font {
      *
      * @return the number of columns of a character's bitmap.
      */
-    // TODO: choose appropriate access modifier (public/private)
     @Override
     public int getWidth(){
         // TODO: implementation

@@ -13,17 +13,13 @@ import AB1.Interfaces.Font;
  * Calling the {@code flush()} method also clears the line buffer.</p>
  */
 public class LinePrinter {
-    // TODO: choose appropriate access modifier (public/private)
-    public char[][] lineBuffer;    // buffer that holds output (bitmaps of printed braille characters)
+    private char[][] lineBuffer;    // buffer that holds output (bitmaps of printed braille characters)
 
-    // TODO: choose appropriate access modifier (public/private)
-    public final Font font;        // font used to render output
+    private final Font font;        // font used to render output
 
-    // TODO: choose appropriate access modifier (public/private)
-    public final int spacing;      // spacing between braille characters (measured in output columns)
+    private final int spacing;      // spacing between braille characters (measured in output columns)
 
-    // TODO: choose appropriate access modifier (public/private)
-    public int cursorPosition;     // position within the lineBuffer where the next braille character will be printed
+    private int cursorPosition;     // position within the lineBuffer where the next braille character will be printed
 
     /**
      * Constructs a LinePrinter for rendering printable Braille text.
@@ -36,7 +32,6 @@ public class LinePrinter {
      * @param spacing    the number of blank screen spaces (ASCII columns) between Braille characters (bitmaps).
      *                   <p>Precondition: spacing > 0 </p>
      */
-    // TODO: choose appropriate access modifier (public/private)
     public LinePrinter(Font font, int lineLength, int spacing) {
         // TODO: implementation
     }
@@ -57,7 +52,6 @@ public class LinePrinter {
      * @param cellWidth  the width of each Braille character cell in columns. Is provided by {@code Font} object.
      *                   <p>Precondition: cellWidth > 0</p>
      */
-    // TODO: choose appropriate access modifier (public/private)
     public void createLineBuffer(int lineLength, int cellHeight, int cellWidth){
         // TODO: implementation
 
@@ -70,7 +64,6 @@ public class LinePrinter {
      *              <p>Precondition: (index >= 0) && (index < lineBuffer.length)</p>
      * @return the ASCII character array of the specified row.
      */
-    // TODO: choose appropriate access modifier (public/private)
     public char[] getLineBufferRow(int index){
         // TODO: implementation
         return null;
@@ -80,7 +73,6 @@ public class LinePrinter {
     /**
      * Clears the line buffer by creating a new one and resetting the cursor position.
      */
-    // TODO: choose appropriate access modifier (public/private)
     public void clearLine(){
         // TODO: implementation
 
@@ -97,7 +89,6 @@ public class LinePrinter {
      * @param character an ASCII character to be converted to a printable Braille representation
      *                  and printed into the line buffer.
      */
-    // TODO: choose appropriate access modifier (public/private)
     public void printCharacter(char character){
         // TODO: implementation
 
@@ -109,7 +100,6 @@ public class LinePrinter {
      *
      * @param string the string to be printed.
      */
-    // TODO: choose appropriate access modifier (public/private)
     public void printString(String string){
         // TODO: implementation
 
@@ -119,7 +109,6 @@ public class LinePrinter {
      * Flushes the content of the line buffer by printing each row to the standard output,
      * and then clearing the buffer by calling {@code clearLine()}.
      */
-    // TODO: choose appropriate access modifier (public/private)
     public void flush(){
         // TODO: implementation
 

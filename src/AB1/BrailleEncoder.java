@@ -20,8 +20,7 @@ public class BrailleEncoder implements AB1.Interfaces.Encoder {
      *
      * The LUT must be used by the class method {@code toBinary}.
      */
-    // TODO: choose appropriate access modifier (public/private)
-    public static final byte[] brailleLUT = {
+    private static final byte[] brailleLUT = {
             0b000001, 0b000011, 0b001001, 0b011001, 0b010001   // a-e
             // TODO: complete the array: add binary representation for letters f-z
             //       for details on the Braille alphabet see
@@ -37,7 +36,6 @@ public class BrailleEncoder implements AB1.Interfaces.Encoder {
      * @param asciiChar an ASCII character from the lower case alphabet ['a','z']
      *                  <p>Precondition: (asciiChar>='a') && (asciiChar<='z')</p>
      */
-    // TODO: choose appropriate access modifier (public/private)
     @Override
     public byte toBinary(char asciiChar) {
         // TODO: implementation
