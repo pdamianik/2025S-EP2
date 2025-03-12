@@ -51,34 +51,22 @@ public class BrailleFont implements AB1.Interfaces.Font {
             byte binaryLetter = encoder.toBinary(letter);
 
             char[][] bitmap = new char[height][width];
-
-            for (char[] row : bitmap) {
-                java.util.Arrays.fill(row, ' ');
-            }
-
-            for (int i = 0; i < 3 * 2; i++) {
-                int brailleRow = i % 3;
-                int brailleColumn = i / 3;
-                if (brailleRow < height && brailleColumn < width) {
-                    if ((binaryLetter & 0b1) == 0b1) {
-                        bitmap[brailleRow][brailleColumn] = dotSymbol;
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    if (row < 3 && col < 2) {
+                        bitmap[row][col] = ((binaryLetter >> row * width + col) & 0b1) == 0b1 ? dotSymbol : spaceSymbol;
                     } else {
-                        bitmap[brailleRow][brailleColumn] = spaceSymbol;
+                        bitmap[row][col] = ' ';
                     }
                 }
-                binaryLetter >>= 1;
             }
-
             this.lowerCaseLetters[letter - 'a'] = bitmap;
         }
 
         this.whiteSpace = new char[height][width];
-        for (int row = 0; row < this.whiteSpace.length; row++) {
-            if (row < 3) {
-                java.util.Arrays.fill(this.whiteSpace[row], 0, Math.min(width, 2), spaceSymbol);
-                java.util.Arrays.fill(this.whiteSpace[row], Math.min(width, 2), width, ' ');
-            } else {
-                java.util.Arrays.fill(this.whiteSpace[row], 0, width, ' ');
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                this.whiteSpace[row][col] = row < 3 && col < 2 ? spaceSymbol : ' ';
             }
         }
     }
