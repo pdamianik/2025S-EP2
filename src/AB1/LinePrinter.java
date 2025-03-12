@@ -52,7 +52,7 @@ public class LinePrinter {
      * @param cellWidth  the width of each Braille character cell in columns. Is provided by {@code Font} object.
      *                   <p>Precondition: cellWidth > 0</p>
      */
-    public void createLineBuffer(int lineLength, int cellHeight, int cellWidth){
+    private void createLineBuffer(int lineLength, int cellHeight, int cellWidth){
         // TODO: implementation
 
     }
@@ -64,7 +64,7 @@ public class LinePrinter {
      *              <p>Precondition: (index >= 0) && (index < lineBuffer.length)</p>
      * @return the ASCII character array of the specified row.
      */
-    public char[] getLineBufferRow(int index){
+    private char[] getLineBufferRow(int index){
         // TODO: implementation
         return null;
     }
