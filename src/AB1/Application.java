@@ -27,12 +27,33 @@ public class Application {
                                 20,
                                 4
                             );
+        System.out.println("Hello World:");
         lp.printString("Hello World");
         lp.flush();
-
         System.out.println();
 
+        System.out.println("Hello World:");
         lp.printString("Hello World");
         lp.flush();
+        System.out.println();
+
+        System.out.println("alphabet:");
+        for (char start = 'a'; start <= 'z'; start += (char) ('j' - 'a' + 1)) {
+            for (char letter = start; letter <= start + ('j' - 'a') && letter <= 'z'; letter++) {
+                lp.printCharacter(letter);
+            }
+            lp.flush();
+            System.out.println();
+        }
+
+        System.out.println("äöüß:");
+        lp.printString("äöüß");
+        lp.flush();
+        System.out.println();
+
+        System.out.println("()[]{}_-.:,:<>:");
+        lp.printString("()[]{}_-.:,:<>");
+        lp.flush();
+        System.out.println();
     }
 }
