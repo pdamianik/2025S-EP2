@@ -99,6 +99,10 @@ public class LinePrinter {
      *                  and printed into the line buffer.
      */
     public void printCharacter(char character){
+        if (this.cursorPosition >= this.lineLength) {
+            return;
+        }
+
         char[][] bitmap = this.font.getBitmap(Character.toLowerCase(character));
 
         for (int row = 0; row < this.font.getHeight(); row++) {
