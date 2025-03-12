@@ -43,7 +43,33 @@ public class BrailleFont implements AB1.Interfaces.Font {
      *                      <p>Precondition: (encoder != null)</p>
      */
     public BrailleFont(int height, int width, char dotSymbol, char spaceSymbol, Encoder encoder) {
-        // TODO: implementation
+        this.height = height;
+        this.width = width;
+
+        this.lowerCaseLetters = new char['z' - 'a' + 1][][];
+        for (char letter = 'a'; letter <= 'z'; letter += 1) {
+            byte binaryLetter = encoder.toBinary(letter);
+
+            char[][] bitmap = new char[height][width];
+
+            for (int i = 0; i < width * height; i++) {
+                if ((binaryLetter & 0b1) == 0b1) {
+                    bitmap[i % height][i / height] = dotSymbol;
+                } else {
+                    bitmap[i % height][i / height] = spaceSymbol;
+                }
+                binaryLetter >>= 1;
+            }
+
+            this.lowerCaseLetters[letter - 'a'] = bitmap;
+        }
+
+        this.whiteSpace = new char[height][width];
+        for (char[] row : this.whiteSpace) {
+            for (int col = 0; col < width; col++) {
+                row[col] = spaceSymbol;
+            }
+        }
     }
 
 
@@ -57,8 +83,11 @@ public class BrailleFont implements AB1.Interfaces.Font {
      */
     @Override
     public char[][] getBitmap(char character) {
-        // TODO: implementation
-        return null;
+        character = Character.toLowerCase(character);
+        if (character >= 'a' && character <= 'z') {
+            return this.lowerCaseLetters[(int) character - (int) 'a'];
+        }
+        return this.whiteSpace;
     }
 
     /**
@@ -68,8 +97,7 @@ public class BrailleFont implements AB1.Interfaces.Font {
      */
     @Override
     public int getHeight(){
-        // TODO: implementation
-    	return 0;
+        return this.height;
     }
     /**
      * Returns the font's width (the font is monospaced).
@@ -78,7 +106,6 @@ public class BrailleFont implements AB1.Interfaces.Font {
      */
     @Override
     public int getWidth(){
-        // TODO: implementation
-        return 0;
+        return this.width;
     }
 }

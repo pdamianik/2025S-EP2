@@ -33,7 +33,10 @@ public class LinePrinter {
      *                   <p>Precondition: spacing > 0 </p>
      */
     public LinePrinter(Font font, int lineLength, int spacing) {
-        // TODO: implementation
+        this.font = font;
+        this.spacing = spacing;
+
+        this.createLineBuffer(lineLength, font.getHeight(), font.getWidth());
     }
 
     /**
@@ -53,8 +56,15 @@ public class LinePrinter {
      *                   <p>Precondition: cellWidth > 0</p>
      */
     private void createLineBuffer(int lineLength, int cellHeight, int cellWidth){
-        // TODO: implementation
+        int lineSize = lineLength * (cellWidth + this.spacing) - this.spacing;
+        this.lineBuffer = new char[cellHeight][lineSize];
+        this.cursorPosition = 0;
 
+        for (char[] row : this.lineBuffer) {
+            for (int col = 0; col < lineSize; col++) {
+                row[col] = ' ';
+            }
+        }
     }
 
     /**
@@ -65,8 +75,7 @@ public class LinePrinter {
      * @return the ASCII character array of the specified row.
      */
     private char[] getLineBufferRow(int index){
-        // TODO: implementation
-        return null;
+        return this.lineBuffer[index];
     }
 
 
@@ -74,8 +83,8 @@ public class LinePrinter {
      * Clears the line buffer by creating a new one and resetting the cursor position.
      */
     public void clearLine(){
-        // TODO: implementation
-
+        int lineLength = (this.lineBuffer[0].length + this.spacing) / (this.font.getWidth() + this.spacing);
+        this.createLineBuffer(lineLength, this.font.getHeight(), this.font.getHeight());
     }
 
     /**
@@ -90,8 +99,14 @@ public class LinePrinter {
      *                  and printed into the line buffer.
      */
     public void printCharacter(char character){
-        // TODO: implementation
+        char[][] bitmap = this.font.getBitmap(Character.toLowerCase(character));
 
+        for (int row = 0; row < this.font.getHeight(); row++) {
+            for (int col = 0; col < this.font.getWidth(); col++) {
+                this.lineBuffer[row][this.cursorPosition + col] = bitmap[row][col];
+            }
+        }
+        this.cursorPosition += this.font.getWidth() + this.spacing;
     }
 
     /**
@@ -101,8 +116,7 @@ public class LinePrinter {
      * @param string the string to be printed.
      */
     public void printString(String string){
-        // TODO: implementation
-
+        string.chars().forEach(character -> this.printCharacter((char) character));
     }
 
     /**
@@ -110,7 +124,9 @@ public class LinePrinter {
      * and then clearing the buffer by calling {@code clearLine()}.
      */
     public void flush(){
-        // TODO: implementation
-
+        for (char[] row : this.lineBuffer) {
+            System.out.println(row);
+        }
+        this.clearLine();
     }
 }

@@ -2,6 +2,11 @@ package AB1;
 
 import AB1.Interfaces.Encoder;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 /**
  * The Application class serves as the entry point to the program.
  * <p>This class is used to test and demonstrate the functionality of printing text in Braille format
@@ -11,7 +16,6 @@ import AB1.Interfaces.Encoder;
  */
 public class Application {
     public static void main(String[] args) {
-
         // example from documentation
         LinePrinter lp=new  LinePrinter(
                                 new BrailleFont(
@@ -26,7 +30,9 @@ public class Application {
         lp.printString("Hello World");
         lp.flush();
 
-        // TODO: implementation of any developer specific tests (optional)
+        System.out.println();
 
+        lp.printString("Hello World");
+        lp.flush();
     }
 }

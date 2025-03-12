@@ -21,8 +21,11 @@ public class BrailleEncoder implements AB1.Interfaces.Encoder {
      * The LUT must be used by the class method {@code toBinary}.
      */
     private static final byte[] brailleLUT = {
-            0b000001, 0b000011, 0b001001, 0b011001, 0b010001,   // a-e
-            0b001011, 0b011011, 0b010011, 0b001010, 0b011010,   // f-j
+            0b000_001, 0b000_011, 0b001_001, 0b011_001, 0b010_001,   // a-e
+            0b001_011, 0b011_011, 0b010_011, 0b001_010, 0b011_010,   // f-j
+            0b000_101, 0b000_111, 0b001_101, 0b011_101, 0b010_101,   // k-o
+            0b001_111, 0b011_111, 0b010_111, 0b001_110, 0b011_110,   // p-t
+            0b100_101, 0b100_111, 0b111_010, 0b101_101, 0b111_101, 0b110_101,   // u-z
     };
 
     /**
@@ -36,8 +39,7 @@ public class BrailleEncoder implements AB1.Interfaces.Encoder {
      */
     @Override
     public byte toBinary(char asciiChar) {
-        // TODO: implementation
-        return 0;
+        return brailleLUT[asciiChar - 'a'];
     }
 
 
