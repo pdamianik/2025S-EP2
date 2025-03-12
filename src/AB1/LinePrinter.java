@@ -102,9 +102,15 @@ public class LinePrinter {
         char[][] bitmap = this.font.getBitmap(Character.toLowerCase(character));
 
         for (int row = 0; row < this.font.getHeight(); row++) {
-            System.arraycopy(bitmap[row], 0, this.lineBuffer[row], this.cursorPosition, this.font.getWidth());
+            System.arraycopy(
+                    bitmap[row],
+                    0,
+                    this.lineBuffer[row],
+                    this.cursorPosition * (this.font.getWidth() + this.spacing),
+                    this.font.getWidth()
+            );
         }
-        this.cursorPosition += this.font.getWidth() + this.spacing;
+        this.cursorPosition++;
     }
 
     /**
