@@ -55,5 +55,35 @@ public class Application {
         lp.printString("()[]{}_-.:,:<>");
         lp.flush();
         System.out.println();
+
+        lp=new  LinePrinter(
+                new BrailleFont(
+                        2,
+                        1,
+                        'o',
+                        '.',
+                        new BrailleEncoder()),
+                20,
+                4
+        );
+        System.out.println("Hello World (smaller bitmaps):");
+        lp.printString("Hello World");
+        lp.flush();
+        System.out.println();
+
+        lp=new  LinePrinter(
+                new BrailleFont(
+                        4,
+                        3,
+                        'o',
+                        '.',
+                        new BrailleEncoder()),
+                20,
+                4
+        );
+        System.out.println("Hello World (bigger bitmaps):");
+        lp.printString("Hello World");
+        lp.flush();
+        System.out.println();
     }
 }

@@ -52,11 +52,19 @@ public class BrailleFont implements AB1.Interfaces.Font {
 
             char[][] bitmap = new char[height][width];
 
-            for (int i = 0; i < width * height; i++) {
-                if ((binaryLetter & 0b1) == 0b1) {
-                    bitmap[i % height][i / height] = dotSymbol;
-                } else {
-                    bitmap[i % height][i / height] = spaceSymbol;
+            for (char[] row : bitmap) {
+                java.util.Arrays.fill(row, ' ');
+            }
+
+            for (int i = 0; i < 3 * 2; i++) {
+                int brailleRow = i % 3;
+                int brailleColumn = i / 3;
+                if (brailleRow < height && brailleColumn < width) {
+                    if ((binaryLetter & 0b1) == 0b1) {
+                        bitmap[brailleRow][brailleColumn] = dotSymbol;
+                    } else {
+                        bitmap[brailleRow][brailleColumn] = spaceSymbol;
+                    }
                 }
                 binaryLetter >>= 1;
             }
@@ -65,8 +73,13 @@ public class BrailleFont implements AB1.Interfaces.Font {
         }
 
         this.whiteSpace = new char[height][width];
-        for (char[] row : this.whiteSpace) {
-            java.util.Arrays.fill(row, spaceSymbol);
+        for (int row = 0; row < this.whiteSpace.length; row++) {
+            if (row < 3) {
+                java.util.Arrays.fill(this.whiteSpace[row], 0, Math.min(width, 2), spaceSymbol);
+                java.util.Arrays.fill(this.whiteSpace[row], Math.min(width, 2), width, ' ');
+            } else {
+                java.util.Arrays.fill(this.whiteSpace[row], 0, width, ' ');
+            }
         }
     }
 
