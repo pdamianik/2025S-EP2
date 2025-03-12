@@ -17,6 +17,8 @@ public class LinePrinter {
 
     private final Font font;        // font used to render output
 
+    private final int lineLength;         // the maximum number of Braille characters the line buffer can hold.
+
     private final int spacing;      // spacing between braille characters (measured in output columns)
 
     private int cursorPosition;     // position within the lineBuffer where the next braille character will be printed
@@ -34,6 +36,7 @@ public class LinePrinter {
      */
     public LinePrinter(Font font, int lineLength, int spacing) {
         this.font = font;
+        this.lineLength = lineLength;
         this.spacing = spacing;
 
         this.createLineBuffer(lineLength, font.getHeight(), font.getWidth());
@@ -61,9 +64,7 @@ public class LinePrinter {
         this.cursorPosition = 0;
 
         for (char[] row : this.lineBuffer) {
-            for (int col = 0; col < lineSize; col++) {
-                row[col] = ' ';
-            }
+            java.util.Arrays.fill(row, ' ');
         }
     }
 
@@ -83,8 +84,7 @@ public class LinePrinter {
      * Clears the line buffer by creating a new one and resetting the cursor position.
      */
     public void clearLine(){
-        int lineLength = (this.lineBuffer[0].length + this.spacing) / (this.font.getWidth() + this.spacing);
-        this.createLineBuffer(lineLength, this.font.getHeight(), this.font.getHeight());
+        this.createLineBuffer(this.lineLength, this.font.getHeight(), this.font.getHeight());
     }
 
     /**
@@ -102,9 +102,7 @@ public class LinePrinter {
         char[][] bitmap = this.font.getBitmap(Character.toLowerCase(character));
 
         for (int row = 0; row < this.font.getHeight(); row++) {
-            for (int col = 0; col < this.font.getWidth(); col++) {
-                this.lineBuffer[row][this.cursorPosition + col] = bitmap[row][col];
-            }
+            System.arraycopy(bitmap[row], 0, this.lineBuffer[row], this.cursorPosition, this.font.getWidth());
         }
         this.cursorPosition += this.font.getWidth() + this.spacing;
     }
@@ -116,7 +114,9 @@ public class LinePrinter {
      * @param string the string to be printed.
      */
     public void printString(String string){
-        string.chars().forEach(character -> this.printCharacter((char) character));
+        for (char character : string.toCharArray()) {
+            this.printCharacter(character);
+        }
     }
 
     /**

@@ -66,9 +66,7 @@ public class BrailleFont implements AB1.Interfaces.Font {
 
         this.whiteSpace = new char[height][width];
         for (char[] row : this.whiteSpace) {
-            for (int col = 0; col < width; col++) {
-                row[col] = spaceSymbol;
-            }
+            java.util.Arrays.fill(row, spaceSymbol);
         }
     }
 
