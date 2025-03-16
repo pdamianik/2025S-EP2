@@ -17,6 +17,8 @@ public class LinePrinter {
 
     private final Font font;        // font used to render output
 
+    private final int lineLength;         // the maximum number of Braille characters the line buffer can hold.
+
     private final int spacing;      // spacing between braille characters (measured in output columns)
 
     private int cursorPosition;     // position within the lineBuffer where the next braille character will be printed
@@ -33,7 +35,11 @@ public class LinePrinter {
      *                   <p>Precondition: spacing > 0 </p>
      */
     public LinePrinter(Font font, int lineLength, int spacing) {
-        // TODO: implementation
+        this.font = font;
+        this.lineLength = lineLength;
+        this.spacing = spacing;
+
+        this.createLineBuffer(lineLength, font.getHeight(), font.getWidth());
     }
 
     /**
@@ -52,9 +58,14 @@ public class LinePrinter {
      * @param cellWidth  the width of each Braille character cell in columns. Is provided by {@code Font} object.
      *                   <p>Precondition: cellWidth > 0</p>
      */
-    public void createLineBuffer(int lineLength, int cellHeight, int cellWidth){
-        // TODO: implementation
+    private void createLineBuffer(int lineLength, int cellHeight, int cellWidth){
+        int lineSize = lineLength * (cellWidth + this.spacing) - this.spacing;
+        this.lineBuffer = new char[cellHeight][lineSize];
+        this.cursorPosition = 0;
 
+        for (char[] row : this.lineBuffer) {
+            java.util.Arrays.fill(row, ' ');
+        }
     }
 
     /**
@@ -64,9 +75,8 @@ public class LinePrinter {
      *              <p>Precondition: (index >= 0) && (index < lineBuffer.length)</p>
      * @return the ASCII character array of the specified row.
      */
-    public char[] getLineBufferRow(int index){
-        // TODO: implementation
-        return null;
+    private char[] getLineBufferRow(int index){
+        return this.lineBuffer[index];
     }
 
 
@@ -74,8 +84,7 @@ public class LinePrinter {
      * Clears the line buffer by creating a new one and resetting the cursor position.
      */
     public void clearLine(){
-        // TODO: implementation
-
+        this.createLineBuffer(this.lineLength, this.font.getHeight(), this.font.getHeight());
     }
 
     /**
@@ -90,8 +99,22 @@ public class LinePrinter {
      *                  and printed into the line buffer.
      */
     public void printCharacter(char character){
-        // TODO: implementation
+        if (this.cursorPosition >= this.lineLength) {
+            return;
+        }
 
+        char[][] bitmap = this.font.getBitmap(Character.toLowerCase(character));
+
+        for (int row = 0; row < this.font.getHeight(); row++) {
+            System.arraycopy(
+                    bitmap[row],
+                    0,
+                    this.lineBuffer[row],
+                    this.cursorPosition * (this.font.getWidth() + this.spacing),
+                    this.font.getWidth()
+            );
+        }
+        this.cursorPosition++;
     }
 
     /**
@@ -101,8 +124,9 @@ public class LinePrinter {
      * @param string the string to be printed.
      */
     public void printString(String string){
-        // TODO: implementation
-
+        for (char character : string.toCharArray()) {
+            this.printCharacter(character);
+        }
     }
 
     /**
@@ -110,7 +134,9 @@ public class LinePrinter {
      * and then clearing the buffer by calling {@code clearLine()}.
      */
     public void flush(){
-        // TODO: implementation
-
+        for (char[] row : this.lineBuffer) {
+            System.out.println(row);
+        }
+        this.clearLine();
     }
 }
