@@ -43,7 +43,40 @@ public class BrailleFont implements AB1.Interfaces.Font {
      *                      <p>Precondition: (encoder != null)</p>
      */
     public BrailleFont(int height, int width, char dotSymbol, char spaceSymbol, Encoder encoder) {
-        // TODO: implementation
+        if (height < 3) {
+            System.err.println("BrailleFont height " + height + " is lower than the minimum height 3. It will be clamped to 3");
+            height = 3;
+        }
+        if (width < 2) {
+            System.err.println("BrailleFont width " + width + " is lower than the minimum height 2. It will be clamped to 2");
+            width = 2;
+        }
+        this.height = height;
+        this.width = width;
+
+        this.lowerCaseLetters = new char['z' - 'a' + 1][][];
+        for (char letter = 'a'; letter <= 'z'; letter += 1) {
+            byte binaryLetter = encoder.toBinary(letter);
+
+            char[][] bitmap = new char[height][width];
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    if (row < 3 && col < 2) {
+                        bitmap[row][col] = ((binaryLetter >> row * width + col) & 0b1) == 0b1 ? dotSymbol : spaceSymbol;
+                    } else {
+                        bitmap[row][col] = ' ';
+                    }
+                }
+            }
+            this.lowerCaseLetters[letter - 'a'] = bitmap;
+        }
+
+        this.whiteSpace = new char[height][width];
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                this.whiteSpace[row][col] = row < 3 && col < 2 ? spaceSymbol : ' ';
+            }
+        }
     }
 
 
@@ -57,8 +90,11 @@ public class BrailleFont implements AB1.Interfaces.Font {
      */
     @Override
     public char[][] getBitmap(char character) {
-        // TODO: implementation
-        return null;
+        character = Character.toLowerCase(character);
+        if (character >= 'a' && character <= 'z') {
+            return this.lowerCaseLetters[(int) character - (int) 'a'];
+        }
+        return this.whiteSpace;
     }
 
     /**
@@ -68,8 +104,7 @@ public class BrailleFont implements AB1.Interfaces.Font {
      */
     @Override
     public int getHeight(){
-        // TODO: implementation
-    	return 0;
+        return this.height;
     }
     /**
      * Returns the font's width (the font is monospaced).
@@ -78,7 +113,6 @@ public class BrailleFont implements AB1.Interfaces.Font {
      */
     @Override
     public int getWidth(){
-        // TODO: implementation
-        return 0;
+        return this.width;
     }
 }
