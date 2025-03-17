@@ -62,7 +62,7 @@ public class BrailleFont implements AB1.Interfaces.Font {
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
                     if (row < 3 && col < 2) {
-                        bitmap[row][col] = ((binaryLetter >> row * width + col) & 0b1) == 0b1 ? dotSymbol : spaceSymbol;
+                        bitmap[row][col] = ((binaryLetter >> col * height + row) & 0b1) == 0b1 ? dotSymbol : spaceSymbol;
                     } else {
                         bitmap[row][col] = ' ';
                     }
