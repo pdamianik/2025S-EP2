@@ -54,5 +54,9 @@ public class Application {
 
         // TODO: implementation of any developer specific tests (optional)
 
+        lp.printString("OK");
+        lp.setSpacing(2);
+        lp.flush();
+
     }
 }
