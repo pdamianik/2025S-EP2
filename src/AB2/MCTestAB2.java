@@ -17,7 +17,7 @@ public class MCTestAB2 {
 
                         new Choice(false, "d.put(X, E); d.put(X, X); d.put(d.get(X), d.get(E));                          (1A)"),
                         new Choice(false, "d.put(X, E); d.put(X, X); d.put(E, X);                                        (1B)"),
-                        new Choice(false, "d.put(X, E); d.put(d.get(E), d.get(X)); d.put(E, X);                          (1C)"),
+                        new Choice(true, "d.put(X, E); d.put(d.get(E), d.get(X)); d.put(E, X);                          (1C)"),
                         new Choice(false, "d.put(d.get(X), d.get(E)); d.put(X, X); d.put(E, E);                          (1D)"),
                         new Choice(false, "d.put(X, X); d.put(d.get(X), d.get(E)); d.put(E, E);                          (1E)")
                 ),
@@ -26,11 +26,11 @@ public class MCTestAB2 {
                         "b sei eine Variable mit einem leeren Stack ganzer Zahlen.\n" +
                                 "Nach welchen der folgenden Aufruf-Sequenzen liefert 'b.peek()' die Zahl 5 als Ergebnis?",
 
-                        new Choice(false, "b.push(4); b.push(b.pop()); b.push(5);                                        (2A)"),
+                        new Choice(true, "b.push(4); b.push(b.pop()); b.push(5);                                        (2A)"),
                         new Choice(false, "b.push(5); b.push(4); b.push(b.pop());                                        (2B)"),
                         new Choice(false, "b.push(5); b.push(4); b.push(8);                                              (2C)"),
-                        new Choice(false, "b.push(4); b.push(5); b.push(b.pop());                                        (2D)"),
-                        new Choice(false, "b.push(4); b.push(b.peek()); b.push(5);                                       (2E)")
+                        new Choice(true, "b.push(4); b.push(5); b.push(b.pop());                                        (2D)"),
+                        new Choice(true, "b.push(4); b.push(b.peek()); b.push(5);                                       (2E)")
                 )
         );
     }
