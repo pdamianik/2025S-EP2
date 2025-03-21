@@ -58,5 +58,9 @@ public class Application {
         lp.setSpacing(2);
         lp.flush();
 
+        lp.printString("OK");
+        lp.printBackSpace();
+        lp.flush();
+
     }
 }

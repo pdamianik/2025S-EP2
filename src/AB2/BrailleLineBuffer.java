@@ -144,8 +144,8 @@ public class BrailleLineBuffer implements LineBuffer {
     public char[][] pop() {
         if (this.count == 0) return null;
 
-        char[][] lastBitmap = this.buffer[this.count - 1];
-        this.buffer[--this.count] = null;
+        char[][] lastBitmap = this.buffer[--this.count];
+        this.buffer[this.count] = null;
         this.reduceBuffer();
         return lastBitmap;
     }
