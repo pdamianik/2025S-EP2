@@ -131,7 +131,8 @@ public class BrailleLineBuffer implements LineBuffer {
     @Override
     public void push(char[][] bitmap) {
         this.expandBuffer();
-        this.buffer[this.count++] = bitmap;
+        this.buffer[this.count] = bitmap;
+        this.count++;
     }
 
     /**
@@ -144,7 +145,8 @@ public class BrailleLineBuffer implements LineBuffer {
     public char[][] pop() {
         if (this.count == 0) return null;
 
-        char[][] lastBitmap = this.buffer[--this.count];
+        this.count--;
+        char[][] lastBitmap = this.buffer[this.count];
         this.buffer[this.count] = null;
         this.reduceBuffer();
         return lastBitmap;
@@ -169,7 +171,7 @@ public class BrailleLineBuffer implements LineBuffer {
         if (cursorPosition < 0 || cursorPosition >= this.count) return false;
 
         this.expandBuffer();
-        System.arraycopy(this.buffer, cursorPosition, this.buffer, cursorPosition + 1, count - cursorPosition);
+        System.arraycopy(this.buffer, cursorPosition, this.buffer, cursorPosition + 1, this.count - cursorPosition);
         this.buffer[cursorPosition] = bitmap;
         this.count++;
         return true;
@@ -192,7 +194,8 @@ public class BrailleLineBuffer implements LineBuffer {
         if (cursorPosition < 0 || cursorPosition >= this.count) return false;
 
         this.expandBuffer();
-        System.arraycopy(this.buffer, cursorPosition + 1, this.buffer, cursorPosition, --this.count - cursorPosition);
+        this.count--;
+        System.arraycopy(this.buffer, cursorPosition + 1, this.buffer, cursorPosition, this.count - cursorPosition);
         this.buffer[this.count] = null;
         return true;
     }
