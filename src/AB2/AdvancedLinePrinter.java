@@ -95,11 +95,12 @@ public class AdvancedLinePrinter {
      * and then clearing the buffer.
      */
     public void flush() {
-        String[] lines = this.lineBuffer.renderScanlines(this.spacing);;
+        String[] lines = this.lineBuffer.renderScanlines(this.spacing);
+        this.lineBuffer.clearBuffer();
+        if (lines == null) return;
         for (String line : lines) {
             System.out.println(line);
         }
-        this.lineBuffer.clearBuffer();
     }
 
 

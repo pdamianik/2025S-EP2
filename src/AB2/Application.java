@@ -62,5 +62,8 @@ public class Application {
         lp.printBackSpace();
         lp.flush();
 
+        lp.printString("OK");
+        lp.clearLine();
+        lp.flush();
     }
 }
