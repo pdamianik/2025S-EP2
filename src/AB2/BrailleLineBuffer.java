@@ -193,10 +193,10 @@ public class BrailleLineBuffer implements LineBuffer {
     public boolean delete(int cursorPosition) {
         if (cursorPosition < 0 || cursorPosition >= this.count) return false;
 
-        this.expandBuffer();
         this.count--;
         System.arraycopy(this.buffer, cursorPosition + 1, this.buffer, cursorPosition, this.count - cursorPosition);
         this.buffer[this.count] = null;
+        this.reduceBuffer();
         return true;
     }
 

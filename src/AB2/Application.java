@@ -72,5 +72,14 @@ public class Application {
             lp.printBackSpace();
         }
         System.out.printf("buffer size: %d  characters in buffer: %d%n", lineBuffer.size(), lineBuffer.count());
+        lp.clearLine();
+
+        lp.printString("OK OK OK OK");
+        System.out.printf("buffer size: %d  characters in buffer: %d%n", lineBuffer.size(), lineBuffer.count());
+        for (int i = 0; i < 8; i++) {
+            lp.deleteCharacter(3);
+        }
+        System.out.printf("buffer size: %d  characters in buffer: %d%n", lineBuffer.size(), lineBuffer.count());
+        lp.clearLine();
     }
 }
