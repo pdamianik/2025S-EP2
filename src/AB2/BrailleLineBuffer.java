@@ -117,8 +117,7 @@ public class BrailleLineBuffer implements LineBuffer {
         if (this.count >= this.size() * this.reductionRatio) return;
 
         int newSize = (int)Math.ceil(this.count * this.growthFactor);
-        if (newSize <= this.initialSize) return;
-        this.resizeBuffer(newSize);
+        this.resizeBuffer(Math.max(newSize, this.initialSize));
     }
 
     /**
