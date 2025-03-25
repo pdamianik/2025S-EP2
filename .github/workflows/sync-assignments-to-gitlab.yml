@@ -14,8 +14,8 @@ jobs:
           ref: main
       - name: Add GitLab remote
         run: git remote add gitlab https://12418032:${{ secrets.GITLAB_ACCESS_TOKEN }}@b3.complang.tuwien.ac.at/ep2/2025s/uebung/h12418032.git
-      - name: Fetch GitLab remote
-        run: git fetch gitlab
+      - name: Pull GitLab remote
+        run: git pull gitlab
       - name: compare github to gitlab
         run: git log origin/main..gitlab/main
       - name: compare gitlab to github
