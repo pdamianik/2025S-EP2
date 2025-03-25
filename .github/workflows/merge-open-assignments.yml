@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: pdamianik/merge-prs-with-label-action@15be45147a366dc479b7c74bda2ed45de8072290
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PR_MERGE_TOKEN }}
           label: 'assignment'
