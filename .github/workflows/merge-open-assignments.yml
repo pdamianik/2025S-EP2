@@ -1,0 +1,13 @@
+name: merge-open-assignments.yml
+on:
+  schedule:
+    - cron: '0 12 * * 2'
+
+jobs:
+  merge-assignment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pdamianik/merge-prs-with-label-action@6572b92f25d668d60d91d85456abd94c3d00215b
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          label: 'assignment'
