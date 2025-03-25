@@ -1,0 +1,20 @@
+name: sync-assignments-to-gitlab.yml
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [closed]
+
+jobs:
+  sync-to-gitlab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Add GitLab remote
+        run: git remote add gitlab https://12418032:${{ secrets.GITLAB_ACCESS_TOKEN }}@b3.complang.tuwien.ac.at/ep2/2025s/uebung/h12418032.git
+      - name: Push to GitLab
+        run: git push gitlab
+      - name: Remove GitLab remote
+        run: git remote remove gitlab
