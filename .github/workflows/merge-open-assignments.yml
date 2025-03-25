@@ -8,7 +8,7 @@ jobs:
   merge-assignment:
     runs-on: ubuntu-latest
     steps:
-      - uses: pdamianik/merge-prs-with-label-action@2dff24762b3e808c168b6a9b8c1efa9169c1c5a5
+      - uses: pdamianik/merge-prs-with-label-action@15be45147a366dc479b7c74bda2ed45de8072290
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           label: 'assignment'
