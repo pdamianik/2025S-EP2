@@ -12,6 +12,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: '0'
+      - name: list files
+        run: ls
       - name: Add GitLab remote
         run: git remote add gitlab https://12418032:${{ secrets.GITLAB_ACCESS_TOKEN }}@b3.complang.tuwien.ac.at/ep2/2025s/uebung/h12418032.git
       - name: Fetch GitLab remote
