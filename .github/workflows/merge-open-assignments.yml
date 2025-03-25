@@ -1,5 +1,6 @@
 name: merge-open-assignments.yml
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 12 * * 2'
 
