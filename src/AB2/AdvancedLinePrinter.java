@@ -21,13 +21,12 @@ public class AdvancedLinePrinter {
         You can use {@code LineBuffer} as if it would be of type {@code BrailleLineBuffer}
         (provided that you do not add further public methods or variables to {@code BrailleLineBuffer}).
     */
-    // TODO: uncomment declaration
-    // private final LineBuffer lineBuffer;  // buffer that holds output (bitmaps of printed braille characters)
+    private final LineBuffer lineBuffer;  // buffer that holds output (bitmaps of printed braille characters)
 
-    // TODO: uncomment declaration
-    //private final Font font;        // font used to render output
+    private final Font font;        // font used to render output
 
     // TODO: your variables go here
+    private int spacing;
 
 
     /**
@@ -41,14 +40,16 @@ public class AdvancedLinePrinter {
      *                   <p>Precondition: ( lineBuffer != null )</p>
      */
     public AdvancedLinePrinter(Font font, int spacing, LineBuffer lineBuffer) {
-        // TODO: implementation
+        this.font = font;
+        this.spacing = spacing;
+        this.lineBuffer = lineBuffer;
     }
 
     /**
      * Method clears the line buffer.
      */
     public void clearLine() {
-        // TODO: implementation
+        this.lineBuffer.clearBuffer();
     }
 
     /**
@@ -61,7 +62,7 @@ public class AdvancedLinePrinter {
      *                  and printed into the line buffer.
      */
     public void printCharacter(char character) {
-        // TODO: implementation
+        this.lineBuffer.push(this.font.getBitmap(character));
     }
 
     /**
@@ -75,7 +76,7 @@ public class AdvancedLinePrinter {
      * 2. If the buffer is empty, no changes occur.</p>
      */
     public void printBackSpace() {
-        // TODO: implementation
+        this.lineBuffer.pop();
     }
 
     /**
@@ -84,7 +85,9 @@ public class AdvancedLinePrinter {
      * @param string the string to be printed.
      */
     public void printString(String string) {
-        // TODO: implementation
+        for (char character : string.toCharArray()) {
+            this.printCharacter(character);
+        }
     }
 
     /**
@@ -92,7 +95,12 @@ public class AdvancedLinePrinter {
      * and then clearing the buffer.
      */
     public void flush() {
-        // TODO: implementation
+        String[] lines = this.lineBuffer.renderScanlines(this.spacing);
+        this.lineBuffer.clearBuffer();
+        if (lines == null) return;
+        for (String line : lines) {
+            System.out.println(line);
+        }
     }
 
 
@@ -107,7 +115,7 @@ public class AdvancedLinePrinter {
      * @param character the ASCII character to be converted to a Braille bitmap and inserted.
      */
     public void insertCharacter(int position, char character) {
-        // TODO: implementation
+        this.lineBuffer.insert(position, this.font.getBitmap(character));
     }
 
     /**
@@ -118,7 +126,7 @@ public class AdvancedLinePrinter {
      *                 An invalid position must be handled by the buffer.
      */
     public void deleteCharacter(int position) {
-        // TODO: implementation
+        this.lineBuffer.delete(position);
     }
 
     /**
@@ -128,7 +136,7 @@ public class AdvancedLinePrinter {
      *                Must be greater than or equal to 0.
      */
     public void setSpacing(int spacing) {
-        // TODO: implementation
+        if (spacing >= 0) this.spacing = spacing;
     }
 
     /**
@@ -138,7 +146,6 @@ public class AdvancedLinePrinter {
      * as spacing between Braille characters.
      */
     public int getSpacing() {
-        // TODO: implementation
-        return 0;
+        return this.spacing;
     }
 }

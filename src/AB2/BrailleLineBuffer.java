@@ -17,7 +17,10 @@ import AB2.Interfaces.LineBuffer;
 public class BrailleLineBuffer implements LineBuffer {
     private char[][][] buffer; // array of 2-dimensional matrices (bitmaps) representing the text line (DO NOT CHANGE)
 
-    // TODO: your variables go here
+    private final int initialSize;
+    private int count;
+    private final double growthFactor;
+    private final double reductionRatio;
 
     /**
      * Constructs a {@code BrailleLineBuffer} object.
@@ -31,7 +34,10 @@ public class BrailleLineBuffer implements LineBuffer {
      *                       <p>Preconditions: ( reductionRatio < 1 ) </p>
      */
     public BrailleLineBuffer(int initialSize, double growthFactor, double reductionRatio) {
-        // TODO: implementation
+        this.buffer = new char[initialSize][][];
+        this.initialSize = initialSize;
+        this.growthFactor = growthFactor;
+        this.reductionRatio = reductionRatio;
     }
 
     /**
@@ -41,8 +47,7 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public int size() {
-        // TODO: implementation
-        return 0;
+        return this.buffer.length;
     }
 
     /**
@@ -52,8 +57,19 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public int count() {
-        // TODO: implementation
-        return 0;
+        return this.count;
+    }
+
+    /**
+     * Resizes the internal buffer to a new size and copies over {@code count} the elements into the new buffer
+     * <p>Preconditions:</p>
+     * 1. {@code newSize >= count}
+     * @param newSize what size the internal buffer should be resized to
+     */
+    private void resizeBuffer(int newSize) {
+        char[][][] newBuffer = new char[newSize][][];
+        System.arraycopy(this.buffer, 0, newBuffer, 0, this.count);
+        this.buffer = newBuffer;
     }
 
     /**
@@ -72,7 +88,10 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public void expandBuffer() {
-        // TODO: implementation
+        if (this.count < this.size()) return;
+
+        int newSize = (int)Math.ceil(this.size() * this.growthFactor);
+        this.resizeBuffer(newSize);
     }
 
     /**
@@ -95,7 +114,11 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public void reduceBuffer() {
-        // TODO: implementation
+        if (this.count >= this.size() * this.reductionRatio) return;
+
+        int newSize = (int)Math.ceil(this.count * this.growthFactor);
+        if (newSize < this.initialSize || newSize >= this.size()) return; // initial size lower bound and current size upper bound
+        this.resizeBuffer(newSize);
     }
 
     /**
@@ -108,7 +131,9 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public void push(char[][] bitmap) {
-        // TODO: implementation
+        this.expandBuffer();
+        this.buffer[this.count] = bitmap;
+        this.count++;
     }
 
     /**
@@ -119,8 +144,13 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public char[][] pop() {
-        // TODO: implementation
-        return null;
+        if (this.count == 0) return null;
+
+        this.count--;
+        char[][] lastBitmap = this.buffer[this.count];
+        this.buffer[this.count] = null;
+        this.reduceBuffer();
+        return lastBitmap;
     }
 
     /**
@@ -139,8 +169,13 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public boolean insert(int cursorPosition, char[][] bitmap) {
-        // TODO: implementation
-        return false;
+        if (cursorPosition < 0 || cursorPosition >= this.count) return false;
+
+        this.expandBuffer();
+        System.arraycopy(this.buffer, cursorPosition, this.buffer, cursorPosition + 1, this.count - cursorPosition);
+        this.buffer[cursorPosition] = bitmap;
+        this.count++;
+        return true;
     }
 
     /**
@@ -157,8 +192,13 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public boolean delete(int cursorPosition) {
-        // TODO: implementation
-        return false;
+        if (cursorPosition < 0 || cursorPosition >= this.count) return false;
+
+        this.count--;
+        System.arraycopy(this.buffer, cursorPosition + 1, this.buffer, cursorPosition, this.count - cursorPosition);
+        this.buffer[this.count] = null;
+        this.reduceBuffer();
+        return true;
     }
 
     /**
@@ -168,7 +208,8 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public void clearBuffer() {
-        // TODO: implementation
+        this.buffer = new char[this.initialSize][][];
+        this.count = 0;
     }
 
     /**
@@ -183,8 +224,31 @@ public class BrailleLineBuffer implements LineBuffer {
      */
     @Override
     public String[] renderScanlines(int spacing) {
-        // TODO: implementation
-        return null;
+        if (this.count == 0) return null;
+
+        int height = this.buffer[0].length; // assume all bitmaps have the same size (not what I would do, but currently AdvancedLinePrinter.font is final)
+        StringBuilder[] lines = new StringBuilder[height];
+        for (int i = 0; i < height; i++) {
+            lines[i] = new StringBuilder();
+        }
+
+        String renderedSpacing = " ".repeat(spacing);
+        for (int i = 0; i < this.count; i++) {
+            if (this.buffer[i].length != height) return null;
+
+            for (int row = 0; row < height; row++) {
+                lines[row].append(this.buffer[i][row]);
+                if (i != this.count - 1)
+                    lines[row].append(renderedSpacing);
+            }
+        }
+
+        String[] result = new String[height];
+        for (int row = 0; row < height; row++) {
+            result[row] = lines[row].toString();
+        }
+
+        return result;
     }
 
     /**
