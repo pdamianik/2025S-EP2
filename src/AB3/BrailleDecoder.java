@@ -1,6 +1,7 @@
 package AB3;
 import AB3.Interfaces.Decoder;
 import AB3.Provided.BrailleEncoder;
+import AB3.Provided.TreeNode;
 
 /**
  * The class implements a decoders, which decodes Braille symbols (bitmaps) into ASCII characters.
@@ -22,7 +23,7 @@ public class BrailleDecoder implements Decoder {
      *                    Precondition: ( encoder != null )
      */
     public BrailleDecoder(BrailleEncoder encoder){
-        // TODO: implementation
+        this.decoderTree = new BrailleSymbolTree(encoder);
     }
 
     /**
@@ -42,8 +43,20 @@ public class BrailleDecoder implements Decoder {
      *         and a null character (0) if the input is invalid.
      */
     public char decodeBitmap(char[][] bitMap, char dotSymbol){
-        // TODO: implementation
-        return 0;
+        if (bitMap == null || bitMap.length != BITMAP_HEIGHT) return 0;
+
+        byte encoded = 0;
+        for (int row = 0; row < BITMAP_HEIGHT; row++) {
+            if (bitMap[row].length != BITMAP_WIDTH) return 0;
+            for (int col = 0; col < BITMAP_WIDTH; col++) {
+                if (bitMap[row][col] == dotSymbol) {
+                    encoded |= (byte) (0x1 << (col * BITMAP_HEIGHT + row));
+                }
+            }
+        }
+
+        TreeNode node = this.decoderTree.getNode(encoded);
+        return node == null ? ' ' : node.getSymbol();
     }
 }
 
