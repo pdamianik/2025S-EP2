@@ -89,12 +89,11 @@ public class BrailleSymbolTree implements Tree {
         TreeNode cursor = this.root;
         for (int i = 0; i < 6; i++) {
             if ((encoded & 0x1) == 0x0) {
-                if (cursor.getLeft() == null) return null;
                 cursor = cursor.getLeft();
             } else {
-                if (cursor.getRight() == null) return null;
                 cursor = cursor.getRight();
             }
+            if (cursor == null) return null;
             encoded >>= 1;
         }
 
