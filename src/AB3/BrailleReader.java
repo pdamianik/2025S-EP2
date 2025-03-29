@@ -33,13 +33,14 @@ public class BrailleReader {
         int offset = (WIDTH + spacing) * position;
         if (brailleLine == null || brailleLine.length < HEIGHT || offset < 0) return null;
 
+        int rowLength = brailleLine[0].length();
+        int remainingChars = rowLength % (WIDTH + spacing);
+        if (offset + WIDTH > rowLength || remainingChars != 0 && remainingChars != WIDTH) return null;
+
         char[][] brailleChar = new char[HEIGHT][WIDTH];
         for (int row = 0; row < HEIGHT; row++) {
-            int remainingChars = brailleLine[row].length() % (WIDTH + spacing);
-            if (offset + WIDTH > brailleLine[row].length() || remainingChars != 0 && remainingChars != WIDTH) return null;
-            for (int col = 0; col < WIDTH; col++) {
-                brailleChar[row][col] = brailleLine[row].charAt(offset + col);
-            }
+            if (brailleLine[row].length() != rowLength) return null;
+            System.arraycopy(brailleLine[row].toCharArray(), offset, brailleChar[row], 0, WIDTH);
         }
         return brailleChar;
     }
