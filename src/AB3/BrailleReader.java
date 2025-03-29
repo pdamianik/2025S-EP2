@@ -72,6 +72,7 @@ public class BrailleReader {
         StringBuilder decoded = new StringBuilder(bitmapCount);
         for (int i = 0; i < bitmapCount; i++) {
             char[][] bitmap = this.getBrailleChar(i, spacing, brailleLine);
+            if (bitmap == null) return null;
             char decodedChar = this.decoder.decodeBitmap(bitmap, dotSymbol);
             decoded.append(decodedChar);
         }
