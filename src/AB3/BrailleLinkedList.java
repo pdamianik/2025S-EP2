@@ -80,6 +80,7 @@ public class BrailleLinkedList implements List {
 
         ListNode first = this.head;
         this.head = first.getNext();
+        first.setNext(null);
 
         if (this.head == null) {
             this.tail = null;
@@ -142,11 +143,12 @@ public class BrailleLinkedList implements List {
             return last;
         }
 
-        ListNode last = this.tail;
+        this.tail = this.head;
         for (int i = 1; i < this.size; i++) {
             this.tail = this.tail.getNext();
         }
-        return last;
+        this.tail.setNext(null);
+        return this.tail;
     }
 
     /**
@@ -161,7 +163,7 @@ public class BrailleLinkedList implements List {
     public ListNode get(int index) {
         if (index < 0 || index >= this.size) return null;
         ListNode cursor = this.head;
-        for (int i = 1; i < index; i++) {
+        for (int i = 0; i < index; i++) {
             cursor = cursor.getNext();
         }
         return cursor;
@@ -216,6 +218,7 @@ public class BrailleLinkedList implements List {
         ListNode previous = this.get(index - 1);
         ListNode result = previous.getNext();
         previous.setNext(result.getNext());
+        result.setNext(null);
         this.size--;
         return result;
     }
