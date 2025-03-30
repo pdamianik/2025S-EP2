@@ -1,7 +1,6 @@
 package AB3;
 import AB3.Interfaces.Decoder;
 import AB3.Provided.BrailleEncoder;
-import AB3.Provided.TreeNode;
 
 /**
  * The class implements a decoders, which decodes Braille symbols (bitmaps) into ASCII characters.
@@ -55,7 +54,7 @@ public class BrailleDecoder implements Decoder {
             }
         }
 
-        TreeNode node = this.decoderTree.getNode(encoded);
+        var node = this.decoderTree.getNode(encoded);
         return node == null ? ' ' : node.getSymbol();
     }
 }
