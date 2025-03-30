@@ -46,6 +46,7 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public void push(char[][] bitmap) {
+        if (bitmap == null) return;
         this.list.addLast(new ListNode(bitmap));
     }
 
@@ -58,7 +59,8 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public char[][] pop() {
-        return this.list.removeLast().getBitmap();
+        var last = this.list.removeLast();
+        return last == null ? null : last.getBitmap();
     }
 
     /**
@@ -71,6 +73,7 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public void insert(int position, char[][] bitmap) {
+        if (bitmap == null) return;
         this.list.insert(new ListNode(bitmap), position);
     }
 
@@ -85,7 +88,8 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public char[][] delete(int position) {
-        return this.list.remove(position).getBitmap();
+        var removed = this.list.remove(position);
+        return removed == null ? null : removed.getBitmap();
     }
 
     /**
