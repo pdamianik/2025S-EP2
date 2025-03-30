@@ -214,7 +214,7 @@ public class BrailleLinkedList implements List {
     @Override
     public ListNode remove(int index) {
         if (index <= 0) return this.removeFirst();
-        if (index >= this.size) return this.removeFirst();
+        if (index >= this.size) return this.removeLast();
 
         ListNode previous = this.get(index - 1);
         ListNode result = previous.getNext();
