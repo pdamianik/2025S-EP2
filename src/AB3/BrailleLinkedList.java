@@ -143,12 +143,13 @@ public class BrailleLinkedList implements List {
             return last;
         }
 
+        ListNode last = this.tail;
         this.tail = this.head;
         for (int i = 1; i < this.size; i++) {
             this.tail = this.tail.getNext();
         }
         this.tail.setNext(null);
-        return this.tail;
+        return last;
     }
 
     /**
