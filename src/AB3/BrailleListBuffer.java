@@ -118,18 +118,23 @@ public class BrailleListBuffer implements ListBuffer {
         if (this.list.size() == 0) return null;
 
         String renderedSpacing = " ".repeat(spacing);
-        char[][] firstBitmap = this.list.removeFirst().getBitmap();
+        ListNode cursor = this.list.getFirst();
+        char[][] firstBitmap = cursor.getBitmap();
+
         StringBuilder[] builders = new StringBuilder[firstBitmap.length];
         for (int row = 0; row < builders.length; row++) {
             builders[row] = new StringBuilder(new String(firstBitmap[row]));
         }
 
-        while (this.list.size() != 0) {
-            char[][] bitmap = this.list.removeFirst().getBitmap();
+        while (cursor.getNext() != null) {
+            cursor = cursor.getNext();
+            char[][] bitmap = cursor.getBitmap();
+
             if (bitmap.length != builders.length) {
                 this.list.clear();
                 return null;
             }
+
             for (int row = 0; row < builders.length; row++) {
                 builders[row].append(renderedSpacing);
                 builders[row].append(bitmap[row]);
