@@ -88,6 +88,7 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public char[][] delete(int position) {
+        if (position < 0 || position >= this.list.size()) return null;
         var removed = this.list.remove(position);
         return removed == null ? null : removed.getBitmap();
     }
