@@ -15,6 +15,6 @@ Ausgabe der Tests:
   (0) BrailleFont.getBitmap() [OK]
   (1) BrailleFont.getHeight() [OK]
   (2) BrailleFont.getWidth() [OK]
-* BrailleEncoder.java <0.0>
-  (0) BrailleEncoder.toBinary(): implementation and LUT [FAIL]
-Gesamt: 5 Punkte (ohne Aufrundung: 4.07143 Punkte)
+* BrailleEncoder.java <0.5>
+  (0) BrailleEncoder.toBinary(): implementation and LUT [OK]
+Gesamt: 5 Punkte (ohne Aufrundung: 4.57143 Punkte)
