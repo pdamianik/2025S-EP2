@@ -47,8 +47,12 @@ public class BrailleSymbolTree implements Tree {
      */
     @Override
     public void addNode(char asciiCharacter) {
-        if (asciiCharacter < 'a' || 'z' < asciiCharacter) return;
-        byte navi = this.encoder.toBinary(asciiCharacter);
+        byte navi;
+        if (asciiCharacter == ' ') {
+            navi = 0;
+        } else if ('a' <= asciiCharacter && asciiCharacter <= 'z') {
+            navi = this.encoder.toBinary(asciiCharacter);
+        } else return;
 
         TreeNode cursor = this.root;
         for (int i = 0; i < 6; i++) {
