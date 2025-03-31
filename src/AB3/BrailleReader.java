@@ -35,7 +35,7 @@ public class BrailleReader {
 
         int rowLength = brailleLine[0].length();
         int remainingChars = rowLength % (WIDTH + spacing);
-        if (offset + WIDTH >= rowLength || remainingChars != 0 && remainingChars != WIDTH) return null;
+        if (offset + WIDTH > rowLength || remainingChars != 0 && remainingChars != WIDTH) return null;
 
         char[][] brailleChar = new char[HEIGHT][WIDTH];
         for (int row = 0; row < HEIGHT; row++) {
