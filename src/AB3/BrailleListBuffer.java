@@ -46,7 +46,6 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public void push(char[][] bitmap) {
-        if (bitmap == null) return;
         this.list.addLast(new ListNode(bitmap));
     }
 
