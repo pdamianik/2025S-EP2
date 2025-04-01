@@ -35,7 +35,7 @@ public class BrailleReader {
 
         int rowLength = brailleLine[0].length();
         int remainingChars = rowLength % (WIDTH + spacing);
-        if (offset + WIDTH > rowLength || remainingChars != 0 && remainingChars != WIDTH) return null;
+        if (offset + WIDTH > rowLength || remainingChars != WIDTH) return null;
 
         char[][] brailleChar = new char[HEIGHT][WIDTH];
         for (int row = 0; row < HEIGHT; row++) {
@@ -59,16 +59,12 @@ public class BrailleReader {
 
         int lineLength = brailleLine[0].length();
         int suffixLength = lineLength % (WIDTH + spacing);
-        if (suffixLength != 0 && suffixLength != WIDTH) return "";
+        if (suffixLength != WIDTH) return "";
         for (String line : brailleLine) {
             if (line.length() != lineLength) return "";
         }
 
-        int bitmapCount = lineLength / (WIDTH + spacing);
-        if (suffixLength == WIDTH) {
-            bitmapCount += 1; // trailing bitmap without spacing appended
-        }
-
+        int bitmapCount = lineLength / (WIDTH + spacing) + 1;
         StringBuilder decoded = new StringBuilder(bitmapCount);
         for (int i = 0; i < bitmapCount; i++) {
             char[][] bitmap = this.getBrailleChar(i, spacing, brailleLine);
