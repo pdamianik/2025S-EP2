@@ -24,7 +24,7 @@ public class BrailleListBuffer implements ListBuffer {
      *             a Braille character as a bitmap.
      */
     BrailleListBuffer(List list) {  // Hint: pass your BrailleLinkedList to this constructor
-        // TODO: implementation
+        this.list = list;
     }
 
     /**
@@ -34,8 +34,7 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public int size() {
-        // TODO: implementation
-        return 0;
+        return this.list.size();
     }
 
     /**
@@ -47,7 +46,7 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public void push(char[][] bitmap) {
-        // TODO: implementation
+        this.list.addLast(new ListNode(bitmap));
     }
 
     /**
@@ -59,8 +58,8 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public char[][] pop() {
-        // TODO: implementation
-        return null;
+        var last = this.list.removeLast();
+        return last == null ? null : last.getBitmap();
     }
 
     /**
@@ -73,7 +72,8 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public void insert(int position, char[][] bitmap) {
-        // TODO: implementation
+        if (bitmap == null) return;
+        this.list.insert(new ListNode(bitmap), position);
     }
 
     /**
@@ -87,8 +87,9 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public char[][] delete(int position) {
-        // TODO: implementation
-        return null;
+        if (position < 0 || position >= this.list.size()) return null;
+        var removed = this.list.remove(position);
+        return removed == null ? null : removed.getBitmap();
     }
 
     /**
@@ -99,7 +100,7 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public void clearBuffer() {
-        // TODO: implementation
+        this.list.clear();
     }
 
     /**
@@ -114,7 +115,37 @@ public class BrailleListBuffer implements ListBuffer {
      */
     @Override
     public String[] renderScanlines(int spacing) {
-        // TODO: implementation
-        return null;
+        if (this.list.size() == 0) return null;
+
+        String renderedSpacing = " ".repeat(spacing);
+        ListNode cursor = this.list.getFirst();
+        char[][] firstBitmap = cursor.getBitmap();
+
+        StringBuilder[] builders = new StringBuilder[firstBitmap.length];
+        for (int row = 0; row < builders.length; row++) {
+            builders[row] = new StringBuilder(new String(firstBitmap[row]));
+        }
+
+        while (cursor.getNext() != null) {
+            cursor = cursor.getNext();
+            char[][] bitmap = cursor.getBitmap();
+
+            if (bitmap.length != builders.length) {
+                this.list.clear();
+                return null;
+            }
+
+            for (int row = 0; row < builders.length; row++) {
+                builders[row].append(renderedSpacing);
+                builders[row].append(bitmap[row]);
+            }
+        }
+
+        String[] rows = new String[builders.length];
+        for (int row = 0; row < rows.length; row++) {
+            rows[row] = builders[row].toString();
+        }
+
+        return rows;
     }
 }

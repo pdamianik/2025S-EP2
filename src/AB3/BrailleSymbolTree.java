@@ -11,7 +11,7 @@ import AB3.Provided.TreeNode;
  */
 public class BrailleSymbolTree implements Tree {
     private TreeNode root;
-    private BrailleEncoder encoder = null;
+    private BrailleEncoder encoder;
 
 
     /**
@@ -22,7 +22,13 @@ public class BrailleSymbolTree implements Tree {
      *                    <p>Precondition: ( encoder != null )</p>
      */
     public BrailleSymbolTree(BrailleEncoder encoder) {
-        // TODO: implementation
+        this.root = new TreeNode();
+        this.encoder = encoder;
+
+        this.addNode(' ');
+        for (char character = 'a'; character <= 'z'; character++) {
+            this.addNode(character);
+        }
     }
 
     /**
@@ -41,7 +47,30 @@ public class BrailleSymbolTree implements Tree {
      */
     @Override
     public void addNode(char asciiCharacter) {
-        // TODO: implementation
+        byte navi;
+        if (asciiCharacter == ' ') {
+            navi = 0;
+        } else if ('a' <= asciiCharacter && asciiCharacter <= 'z') {
+            navi = this.encoder.toBinary(asciiCharacter);
+        } else return;
+
+        TreeNode cursor = this.root;
+        for (int i = 0; i < 6; i++) {
+            if ((navi & 0x1) == 0x0) {
+                if (cursor.getLeft() == null) {
+                    cursor.setLeft(new TreeNode());
+                }
+                cursor = cursor.getLeft();
+            } else {
+                if (cursor.getRight() == null) {
+                    cursor.setRight(new TreeNode());
+                }
+                cursor = cursor.getRight();
+            }
+            navi >>= 1;
+        }
+
+        cursor.setSymbol(asciiCharacter);
     }
 
 
@@ -59,8 +88,18 @@ public class BrailleSymbolTree implements Tree {
      */
     @Override
     public TreeNode getNode(byte encoded){
-        // TODO: implementation
-        return null;
+        TreeNode cursor = this.root;
+        for (int i = 0; i < 6; i++) {
+            if ((encoded & 0x1) == 0x0) {
+                cursor = cursor.getLeft();
+            } else {
+                cursor = cursor.getRight();
+            }
+            if (cursor == null) return null;
+            encoded >>= 1;
+        }
+
+        return cursor;
     }
 
 
