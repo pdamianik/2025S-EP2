@@ -19,7 +19,6 @@ public class EdSFactory implements AbstractDinosaurFactory {
      */
     @Override
     public Dinosaur create(int dna, String name) {
-        // TODO: implementation
-        return null;
+        return new Edmontosaurus(dna, name);
     }
 }

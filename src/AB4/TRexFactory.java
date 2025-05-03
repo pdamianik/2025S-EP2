@@ -19,7 +19,6 @@ public class TRexFactory implements AbstractDinosaurFactory {
      */
     @Override
     public Dinosaur create(int dna, String name) {
-        // TODO: implementation
-        return null;
+        return new TyrannosaurusRex(dna, name);
     }
 }

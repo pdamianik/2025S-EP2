@@ -17,11 +17,14 @@ public class DinoCorp {
 
     private AbstractDinosaurFactory[] factories = new AbstractDinosaurFactory[MAX_FACTORIES];
     private String[] factoryNames = new String[MAX_FACTORIES];
+    private int factoryCount = 0;
+
+    private int activeFactory = -1;
 
     private String[] orders = new String[0];
-    private AbstractTreeNode population;
+    private int currentOrder = 0;
 
-    // TODO: variable declarations
+    private AbstractTreeNode population;
 
     /**
      * Constructor for the DinoCorp class that initializes the corporation's
@@ -32,7 +35,7 @@ public class DinoCorp {
      *                          the population of dinosaurs owned by the corporation.
      */
     DinoCorp(AbstractTreeNode initialPopulation){
-        // TODO: implementation
+        this.population = initialPopulation;
     }
 
     /**
@@ -43,8 +46,9 @@ public class DinoCorp {
      * @return the index at which the factory was added to the corporations factories array.
      */
     public int registerFactory(AbstractDinosaurFactory dinoFactory, String name){
-        // TODO: implementation
-        return 0;
+        this.factories[this.factoryCount] = dinoFactory;
+        this.factoryNames[this.factoryCount] = name;
+        return this.factoryCount++;
     }
 
     /**
@@ -54,7 +58,12 @@ public class DinoCorp {
      * @return true if the factory was successfully activated, false if no factory with the given name is found
      */
     private boolean activateFactory(String factoryName){
-        // TODO: implementation
+        for (int i = 0; i < this.factoryCount; i++) {
+            if (this.factoryNames[i].equals(factoryName)) {
+                this.activeFactory = i;
+                return true;
+            }
+        }
         return false;
     }
 
@@ -65,7 +74,8 @@ public class DinoCorp {
      *                        Precondition: productionOrders != null.
      */
     public void setOrders(String[] productionOrders){
-        // TODO: implementation
+        this.orders = productionOrders;
+        this.currentOrder = 0;
     }
 
     /**
@@ -85,7 +95,32 @@ public class DinoCorp {
      *         {@code false} otherwise (e.g., invalid order format, failure in processing, or  no active factory).
      */
     public boolean processNextOrder(){
-        // TODO: implementation
+        if (this.currentOrder >= this.orders.length) return false;
+        String order = this.orders[this.currentOrder++];
+        char magicValue = order.charAt(0);
+
+        if (magicValue == '#') {
+            // enable a factory
+            String factoryName = order.substring(1);
+            return this.activateFactory(factoryName);
+        } else if (Character.isLetter(magicValue)) {
+            // create a dino
+            String[] arguments = order.split("!");
+            if (arguments.length != 2) return false;
+
+            String name = arguments[0];
+            int dna;
+            try {
+                dna = Integer.parseInt(arguments[1]);
+            } catch (NumberFormatException ex) {
+                return false;
+            }
+
+            if (this.getActiveFactory() == null) return false;
+            var animal = this.getActiveFactory().create(dna, name);
+            this.population = this.population.store(animal);
+            return true;
+        }
         return false;
     }
 
@@ -95,7 +130,10 @@ public class DinoCorp {
      * @param food the type of food to provide to the dinosaurs. This must be one of the {@code Dinosaur.Food} enum values (e.g., MEAT or PLANTS).
      */
     public void feed(Dinosaur.Food food){
-        // TODO: implementation
+        var animals = this.population.flatten();
+        for (var animal : animals) {
+            animal.feed(food);
+        }
     }
 
     /**
@@ -105,8 +143,12 @@ public class DinoCorp {
      * @return the number of dinosaurs in the population with the specified emotional state.
      */
     public int countAnimalsByMood(Dinosaur.Happiness mood){
-        // TODO: implementation
-        return 0;
+        int count = 0;
+        var animals = this.population.flatten();
+        for (var animal : animals) {
+            if (animal.getHappiness() == mood) count++;
+        }
+        return count;
     }
 
     /**
@@ -116,8 +158,7 @@ public class DinoCorp {
      * @return the active {@code AbstractDinosaurFactory} instance, or {@code null} if no factory is currently active.
      */
     public AbstractDinosaurFactory getActiveFactory(){
-        // TODO: implementation
-        return null;
+        return this.activeFactory == -1 ? null : this.factories[this.activeFactory];
     }
 
 }

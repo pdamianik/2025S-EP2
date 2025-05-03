@@ -11,7 +11,9 @@ import AB4.Interfaces.Dinosaur;
  * <p>This class implements the {@link Dinosaur} interface.</p>
  */
 public class TyrannosaurusRex implements Dinosaur {
-    // TODO: variable declarations
+    private int dna;
+    private String name;
+    private Happiness happiness;
 
     /**
      * Constructor for the TyrannosaurusRex class, initializing a new instance
@@ -24,7 +26,9 @@ public class TyrannosaurusRex implements Dinosaur {
      * @param name name assigned to this animal at the moment of birth.
      */
     public TyrannosaurusRex(int dna, String name) {
-        // TODO: implementation
+        this.dna = dna;
+        this.name = name;
+        this.happiness = Happiness.ANGRY;
     }
 
     /**
@@ -37,8 +41,7 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public int getDNA() {
-        // TODO: implementation
-        return 0;
+        return this.dna;
     }
 
     /**
@@ -48,8 +51,7 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public String getName() {
-        // TODO: implementation
-        return null;
+        return this.name;
     }
 
     /**
@@ -60,8 +62,7 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public Happiness getHappiness() {
-        // TODO: implementation
-        return null;
+        return this.happiness;
     }
 
     /**
@@ -76,8 +77,20 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public Happiness feed(Food food) {
-        // TODO: implementation
-        return null;
+        if (food == Food.MEAT) {
+            this.happiness = Happiness.HAPPY;
+        } else {
+            this.happiness = Happiness.ANGRY;
+        }
+        return this.happiness;
+    }
+
+    private String dangerStatus() {
+        if (this.happiness == Happiness.ANGRY) {
+            return "[DANGER]";
+        } else {
+            return "[OK]";
+        }
     }
 
     /**
@@ -95,7 +108,6 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public String toString(){
-        // TODO: implementation
-        return null;
+        return String.format("TRex %s %s", this.name, this.dangerStatus());
     }
 }

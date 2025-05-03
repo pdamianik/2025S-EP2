@@ -12,7 +12,9 @@ import AB4.Interfaces.Dinosaur;
  * <p>This class implements the {@link Dinosaur} interface.</p>
  */
 public class Edmontosaurus implements Dinosaur {
-    // TODO: variable declarations
+    private int dna;
+    private String name;
+    private Happiness happiness;
 
     /**
      * Constructor for the Edmontosaurus class, initializing a new instance
@@ -25,7 +27,9 @@ public class Edmontosaurus implements Dinosaur {
      * @param name name assigned to this animal at the moment of birth.
      */
     public Edmontosaurus(int dna, String name) {
-        // TODO: implementation
+        this.dna = dna;
+        this.name = name;
+        this.happiness = Happiness.HAPPY;
     }
 
     /**
@@ -38,8 +42,7 @@ public class Edmontosaurus implements Dinosaur {
      */
     @Override
     public int getDNA() {
-        // TODO: implementation
-        return 0;
+        return this.dna;
     }
 
     /**
@@ -49,8 +52,7 @@ public class Edmontosaurus implements Dinosaur {
      */
     @Override
     public String getName() {
-        // TODO: implementation
-        return null;
+        return this.name;
     }
 
     /**
@@ -61,8 +63,7 @@ public class Edmontosaurus implements Dinosaur {
      */
     @Override
     public Happiness getHappiness() {
-        // TODO: implementation
-        return null;
+        return this.happiness;
     }
 
     /**
@@ -78,8 +79,18 @@ public class Edmontosaurus implements Dinosaur {
      */
     @Override
     public Happiness feed(Food food) {
-        // TODO: implementation
-        return null;
+        if (food == Food.PLANTS) {
+            this.happiness = Happiness.HAPPY;
+        } else {
+            if (this.happiness == Happiness.HAPPY) {
+                this.happiness = Happiness.SAD;
+            } else if (this.happiness == Happiness.SAD) {
+                this.happiness = Happiness.ANGRY;
+            } else {
+                throw new IllegalStateException("Could not decrease happiness due to an unexpected happiness value: " + this.happiness);
+            }
+        }
+        return this.happiness;
     }
 
     /**
@@ -94,8 +105,7 @@ public class Edmontosaurus implements Dinosaur {
      * @return a string, combining species, name and current danger status indicator.
      */
     public String toString(){
-        // TODO: implementation
-        return null;
+        return String.format("Edmontosaurus %s [OK]", this.name);
     }
 
 }
