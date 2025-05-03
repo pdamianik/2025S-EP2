@@ -21,6 +21,8 @@ jobs:
         run: git log main..gitlab/main
       - name: compare gitlab to github
         run: git log gitlab/main..main
+      - name: rebase onto gitlab
+        run: git rebase gitlab main
       - name: Push to GitLab
         run: git push gitlab main
       - name: Remove GitLab remote
