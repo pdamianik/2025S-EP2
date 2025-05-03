@@ -25,7 +25,6 @@ public class AdvancedLinePrinter {
 
     private final Font font;        // font used to render output
 
-    // TODO: your variables go here
     private int spacing;
 
 

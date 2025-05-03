@@ -51,8 +51,6 @@ public class Application {
         // and write it to screen :)
         System.out.println(asciiText);
 
-        // TODO: implementation of any developer specific tests (optional)
-
         // and write it to screen again (because its fun :) )
         System.out.println(asciiText);
     }
