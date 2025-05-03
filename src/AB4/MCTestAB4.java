@@ -16,8 +16,8 @@ public class MCTestAB4 {
                         "'W x = new D();' deklarierte Variable, wobei der Compiler keinen Fehler meldet.\n" +
                         "Welche der folgenden Aussagen treffen für alle passenden J, W, D und x zu?",
 
-                        new Choice(false, "'(J)x' liefert Laufzeitfehler wenn D nicht Untertyp von J ist.                (1A)"),
-                        new Choice(false, "D ist Untertyp von W.                                                         (1B)"),
+                        new Choice(true, "'(J)x' liefert Laufzeitfehler wenn D nicht Untertyp von J ist.                (1A)"),
+                        new Choice(true, "D ist Untertyp von W.                                                         (1B)"),
                         new Choice(false, "'(J)null' liefert einen Laufzeitfehler.                                       (1C)"),
                         new Choice(false, "'(J)x' ändert den dynamischen Typ von x auf J.                                (1D)"),
                         new Choice(false, "Mit 'D ist Untertyp von J' gilt: '((J)x).getClass() == J.class'               (1E)")
@@ -28,11 +28,11 @@ public class MCTestAB4 {
                         "fehlerfrei compiliert: 'Y j = new R();  j.s();'\n" +
                         "Welche der folgenden Aussagen treffen für alle passenden R, Y, j und s() zu?",
 
-                        new Choice(false, "Y kann Interface oder Klasse sein.                                            (2A)"),
-                        new Choice(false, "R kann kein Interface, sondern muss eine Klasse sein.                         (2B)"),
-                        new Choice(false, "Die Methode s() muss in R und Y vorhanden sein.                               (2C)"),
+                        new Choice(true, "Y kann Interface oder Klasse sein.                                            (2A)"),
+                        new Choice(true, "R kann kein Interface, sondern muss eine Klasse sein.                         (2B)"),
+                        new Choice(true, "Die Methode s() muss in R und Y vorhanden sein.                               (2C)"),
                         new Choice(false, "Durch 'j.s()' wird die Methode in R ausgeführt.                               (2D)"),
-                        new Choice(false, "Kommentare zu s() in Y müssen auch auf s() in R zutreffen.                    (2E)")
+                        new Choice(true, "Kommentare zu s() in Y müssen auch auf s() in R zutreffen.                    (2E)")
                 )
         );
     }
