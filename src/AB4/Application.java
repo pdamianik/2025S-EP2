@@ -37,19 +37,19 @@ public class Application {
         // feeding time
         System.out.println("All new and hungry dinos...");
         System.out.println("Angry dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.ANGRY));
-        System.out.println("Sad dinos:" + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
+        System.out.println("Sad dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
         System.out.println("Happy dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.HAPPY));
 
         System.out.println("Feed some meat...");
         corp.feed(Dinosaur.Food.MEAT);
         System.out.println("Angry dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.ANGRY));
-        System.out.println("Sad dinos:" + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
+        System.out.println("Sad dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
         System.out.println("Happy dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.HAPPY));
 
         System.out.println("Feed some plants...");
         corp.feed(Dinosaur.Food.PLANTS);
         System.out.println("Angry dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.ANGRY));
-        System.out.println("Sad dinos:" + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
+        System.out.println("Sad dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
         System.out.println("Happy dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.HAPPY));
         System.out.println();
 
@@ -124,8 +124,5 @@ public class Application {
         for (Dinosaur dino : flattened) {
             System.out.println(dino);
         }
-
-        // TODO: implementation of any developer specific tests (optional)
-
     }
 }
