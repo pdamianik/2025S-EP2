@@ -86,6 +86,9 @@ public class Edmontosaurus implements Dinosaur {
                 this.happiness = Happiness.SAD;
             } else if (this.happiness == Happiness.SAD) {
                 this.happiness = Happiness.ANGRY;
+            } else if (this.happiness == Happiness.ANGRY) {
+                // Stay angry >:(
+                // I want my foooood!!
             } else {
                 throw new IllegalStateException("Could not decrease happiness due to an unexpected happiness value: " + this.happiness);
             }
