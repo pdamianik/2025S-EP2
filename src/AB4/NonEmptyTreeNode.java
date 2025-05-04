@@ -75,9 +75,9 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
             if (this.left == EmptyTreeNode.NIL && this.right == EmptyTreeNode.NIL)
                 return EmptyTreeNode.NIL;
         } else if (dna < this.key) {
-            this.left.remove(dna);
+            this.left = this.left.remove(dna);
         } else {
-            this.right.remove(dna);
+            this.right = this.right.remove(dna);
         }
         return this;
     }
