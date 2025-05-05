@@ -128,6 +128,7 @@ public class Application {
         testEdmontosaurusHappinessDecrease();
         testLeafRemoval();
         testFindAnimalByNameInNullTree();
+        testFactoryOverflow();
     }
 
     public static void testEdmontosaurusHappinessDecrease() {
@@ -264,6 +265,31 @@ public class Application {
             System.out.println("[FAIL]");
             System.err.printf("|  Got %s%n", dino);
             return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testFactoryOverflow() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        System.out.print("|- 10 (adjust to DinoCorp.MAX_FACTORIES) factories can be registered initially ");
+        var corp = new DinoCorp(EmptyTreeNode.NIL);
+        int i = 0;
+        for (; i < 10; i++) {
+            corp.registerFactory(new EdSFactory(), Integer.toString(i));
+        }
+        System.out.println("[PASS]");
+
+        System.out.print("|- another factory doesn't overflow ");
+        try {
+            corp.registerFactory(new EdSFactory(), Integer.toString(i));
+            System.out.println("[PASS]");
+        } catch (IndexOutOfBoundsException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            System.out.println("[PASS]");
+            ex.printStackTrace(); // custom exceptions and other exceptions (OOM) are allowed
         }
 
         System.out.printf("\\%s%n", "-".repeat(10));

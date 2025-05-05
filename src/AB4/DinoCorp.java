@@ -13,10 +13,10 @@ import AB4.Interfaces.Dinosaur;
  * querying the population's emotional state, to monitor the danger level as much as the impact of food on the population.
  */
 public class DinoCorp {
-    private static final int MAX_FACTORIES = 10;
+    private static final int INITIAL_FACTORIES = 10;
 
-    private AbstractDinosaurFactory[] factories = new AbstractDinosaurFactory[MAX_FACTORIES];
-    private String[] factoryNames = new String[MAX_FACTORIES];
+    private AbstractDinosaurFactory[] factories = new AbstractDinosaurFactory[INITIAL_FACTORIES];
+    private String[] factoryNames = new String[INITIAL_FACTORIES];
     private int factoryCount = 0;
 
     private int activeFactory = -1;
@@ -46,6 +46,17 @@ public class DinoCorp {
      * @return the index at which the factory was added to the corporations factories array.
      */
     public int registerFactory(AbstractDinosaurFactory dinoFactory, String name){
+        if (this.factoryCount >= this.factories.length) {
+            var newFactories = new AbstractDinosaurFactory[this.factories.length * 2];
+            var newFactoryNames = new String[this.factoryNames.length * 2];
+
+            System.arraycopy(this.factories, 0, newFactories, 0, this.factories.length);
+            System.arraycopy(this.factoryNames, 0, newFactoryNames, 0, this.factoryNames.length);
+
+            this.factories = newFactories;
+            this.factoryNames = newFactoryNames;
+        }
+
         this.factories[this.factoryCount] = dinoFactory;
         this.factoryNames[this.factoryCount] = name;
         return this.factoryCount++;
