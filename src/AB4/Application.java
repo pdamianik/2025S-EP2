@@ -124,5 +124,65 @@ public class Application {
         for (Dinosaur dino : flattened) {
             System.out.println(dino);
         }
+
+        testEdmontosaurusHappinessDecrease();
+    }
+
+    public static void testEdmontosaurusHappinessDecrease() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        AB4.Interfaces.AbstractDinosaurFactory edSFactory = new EdSFactory();
+        Dinosaur edmontosaurus = edSFactory.create(1, "Melsa");
+
+        System.out.printf("|- initially %s ", Dinosaur.Happiness.HAPPY);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.HAPPY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- decrease to %s ", Dinosaur.Happiness.SAD);
+        edmontosaurus.feed(Dinosaur.Food.MEAT);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.SAD) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- decrease to %s ", Dinosaur.Happiness.ANGRY);
+        edmontosaurus.feed(Dinosaur.Food.MEAT);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.ANGRY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- decrease stays %s ", Dinosaur.Happiness.ANGRY);
+        edmontosaurus.feed(Dinosaur.Food.MEAT);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.ANGRY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- veggies reset to %s ", Dinosaur.Happiness.HAPPY);
+        edmontosaurus.feed(Dinosaur.Food.PLANTS);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.HAPPY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
     }
 }
