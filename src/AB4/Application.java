@@ -126,6 +126,7 @@ public class Application {
         }
 
         testEdmontosaurusHappinessDecrease();
+        testLeafRemoval();
     }
 
     public static void testEdmontosaurusHappinessDecrease() {
@@ -180,6 +181,55 @@ public class Application {
         } else {
             System.out.println("[FAIL]");
             System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testLeafRemoval() {
+        System.out.println("* test leaf child removal");
+
+        AB4.Interfaces.AbstractDinosaurFactory edSFactory = new EdSFactory();
+        NonEmptyTreeNode root = new NonEmptyTreeNode(edSFactory.create(1, "Melsa"));
+        root.store(edSFactory.create(0, "Tial"));
+        root.store(edSFactory.create(2, "Firs"));
+
+        System.out.println("|- tree has a correct initial structure");
+        System.out.print("|--- root has a non empty left child ");
+        if (root.getLeft() instanceof NonEmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    left child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+        System.out.print("|--- root has a non empty right child ");
+        if (root.getRight() instanceof NonEmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    right child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+
+        System.out.print("|- remove left child ");
+        root.remove(0);
+        if (root.getLeft() instanceof EmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    left child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+
+        System.out.print("|- remove right child ");
+        root.remove(2);
+        if (root.getLeft() instanceof EmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    right child is a %s%n", root.getLeft().getClass());
             return;
         }
 
