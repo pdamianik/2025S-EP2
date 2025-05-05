@@ -129,6 +129,7 @@ public class Application {
         testLeafRemoval();
         testFindAnimalByNameInNullTree();
         testFactoryOverflow();
+        testEmptyOrderString();
     }
 
     public static void testEdmontosaurusHappinessDecrease() {
@@ -285,11 +286,28 @@ public class Application {
         try {
             corp.registerFactory(new EdSFactory(), Integer.toString(i));
             System.out.println("[PASS]");
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (ArrayIndexOutOfBoundsException ex) {
             throw ex;
         } catch (Exception ex) {
             System.out.println("[PASS]");
             ex.printStackTrace(); // custom exceptions and other exceptions (OOM) are allowed
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testEmptyOrderString() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        var corp = new DinoCorp(EmptyTreeNode.NIL);
+        corp.setOrders(new String[]{""});
+
+        System.out.print("|- an empty order gets skipped ");
+        if (!corp.processNextOrder()) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            return;
         }
 
         System.out.printf("\\%s%n", "-".repeat(10));

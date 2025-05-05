@@ -108,6 +108,7 @@ public class DinoCorp {
     public boolean processNextOrder(){
         if (this.currentOrder >= this.orders.length) return false;
         String order = this.orders[this.currentOrder++];
+        if (order.isEmpty()) return false;
         char magicValue = order.charAt(0);
 
         if (magicValue == '#') {
