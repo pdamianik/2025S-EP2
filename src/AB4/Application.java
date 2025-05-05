@@ -127,6 +127,7 @@ public class Application {
 
         testEdmontosaurusHappinessDecrease();
         testLeafRemoval();
+        testFindAnimalByNameInNullTree();
     }
 
     public static void testEdmontosaurusHappinessDecrease() {
@@ -230,6 +231,38 @@ public class Application {
         } else {
             System.out.println("[FAIL]");
             System.err.printf("|    right child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testFindAnimalByNameInNullTree() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        AB4.Interfaces.AbstractDinosaurFactory edSFactory = new EdSFactory();
+        NonEmptyTreeNode root = new NonEmptyTreeNode(edSFactory.create(1, "Melsa"));
+        root.store(edSFactory.create(0, "Tial"));
+        root.store(edSFactory.create(2, "Firs"));
+
+        System.out.print("|- find by name succeeds initially ");
+        var dino = root.findByName("Tial");
+        if (dino.getDNA() == 0 && dino.getName().equals("Tial")) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  Got %s%n", dino);
+            return;
+        }
+
+        System.out.print("|- find by name succeeds after removal ");
+        root.remove(1);
+        dino = root.findByName("Tial");
+        if (dino.getDNA() == 0 && dino.getName().equals("Tial")) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  Got %s%n", dino);
             return;
         }
 

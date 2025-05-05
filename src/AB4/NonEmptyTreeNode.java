@@ -111,7 +111,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     @Override
     public Dinosaur findByName(String name) {
-        if (this.animal.getName().equals(name)) return this.animal;
+        if (this.animal != null && this.animal.getName().equals(name)) return this.animal;
         Dinosaur animal = this.left.findByName(name);
         return animal == null ? this.right.findByName(name) : animal;
     }
