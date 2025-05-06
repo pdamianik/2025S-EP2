@@ -13,10 +13,10 @@ import AB4.Interfaces.Dinosaur;
  * querying the population's emotional state, to monitor the danger level as much as the impact of food on the population.
  */
 public class DinoCorp {
-    private static final int INITIAL_FACTORIES = 10;
+    private static final int MAX_FACTORIES = 10;
 
-    private AbstractDinosaurFactory[] factories = new AbstractDinosaurFactory[INITIAL_FACTORIES];
-    private String[] factoryNames = new String[INITIAL_FACTORIES];
+    private AbstractDinosaurFactory[] factories = new AbstractDinosaurFactory[MAX_FACTORIES];
+    private String[] factoryNames = new String[MAX_FACTORIES];
     private int factoryCount = 0;
 
     private int activeFactory = -1;
