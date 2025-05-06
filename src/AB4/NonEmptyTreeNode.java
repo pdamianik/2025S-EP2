@@ -13,7 +13,10 @@ import AB4.Interfaces.Dinosaur;
  * smaller than the node's key and the right child's key is larger than the node's key. Child nodes are always non-null.</p>
  */
 public class NonEmptyTreeNode implements AbstractTreeNode {
-    // TODO: variable declarations
+    private Dinosaur animal;
+    private int key;
+    private AbstractTreeNode left;
+    private AbstractTreeNode right;
 
     /**
      * Constructs a {@code NonEmptyTreeNode} that containing a given Dinosaur object.
@@ -23,7 +26,10 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      *               The DNA of this Dinosaur is used as the key, and the Dinosaur itself is the value of the node.
      */
     NonEmptyTreeNode(Dinosaur animal) {
-        // TODO: implementation
+        this.animal = animal;
+        this.key = animal.getDNA();
+        this.left = EmptyTreeNode.NIL;
+        this.right = EmptyTreeNode.NIL;
     }
 
     /**
@@ -39,8 +45,15 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     @Override
     public AbstractTreeNode store(Dinosaur animal) {
-        // TODO: implementation
-        return null;
+        int search = animal.getDNA();
+        if (search == this.key) {
+            this.animal = animal;
+        } else if (search < this.key) {
+            this.left = this.left.store(animal);
+        } else {
+            this.right = this.right.store(animal);
+        }
+        return this;
     }
 
     /**
@@ -57,8 +70,16 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     @Override
     public AbstractTreeNode remove(int dna) {
-        // TODO: implementation
-        return null;
+        if (dna == this.key) {
+            this.animal = null;
+            if (this.left == EmptyTreeNode.NIL && this.right == EmptyTreeNode.NIL)
+                return EmptyTreeNode.NIL;
+        } else if (dna < this.key) {
+            this.left = this.left.remove(dna);
+        } else {
+            this.right = this.right.remove(dna);
+        }
+        return this;
     }
 
     /**
@@ -74,8 +95,9 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     @Override
     public Dinosaur find(int dna) {
-        // TODO: implementation
-        return null;
+        if (dna == this.key) return this.animal;
+        else if (dna < this.key) return this.left.find(dna);
+        else return this.right.find(dna);
     }
 
     /**
@@ -89,8 +111,9 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     @Override
     public Dinosaur findByName(String name) {
-        // TODO: implementation
-        return null;
+        if (this.animal != null && this.animal.getName().equals(name)) return this.animal;
+        Dinosaur animal = this.left.findByName(name);
+        return animal == null ? this.right.findByName(name) : animal;
     }
 
     /**
@@ -106,8 +129,18 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      */
     @Override
     public Dinosaur[] flatten() {
-        // TODO: implementation
-        return null;
+        Dinosaur[] left = this.left.flatten();
+        Dinosaur[] right = this.right.flatten();
+
+        int rightStart = left.length;
+        if (this.animal != null) rightStart++;
+        Dinosaur[] flattened = new Dinosaur[rightStart + right.length];
+
+        System.arraycopy(left, 0, flattened, 0, left.length);
+        if (this.animal != null) flattened[left.length] = this.animal;
+        System.arraycopy(right, 0, flattened, rightStart, right.length);
+
+        return flattened;
     }
 
     // GETTERS AND SETTERS
@@ -118,8 +151,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      * @return the key of the current tree node, represented as an {@code int}.
      */
     public int getKey() {
-        // TODO: implementation
-        return 0;
+        return this.key;
     }
 
     /**
@@ -128,8 +160,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      * @return the left child node represented as an {@code AbstractTreeNode}.
      */
     public AbstractTreeNode getLeft() {
-        // TODO: implementation
-        return null;
+        return this.left;
     }
 
     /**
@@ -138,8 +169,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      * @return the right child node represented as an {@code AbstractTreeNode}.
      */
     public AbstractTreeNode getRight() {
-        // TODO: implementation
-        return null;
+        return this.right;
     }
 
     /**
@@ -149,7 +179,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      * @param left the left child node to be assigned, represented as an {@code AbstractTreeNode}.
      */
     public void setLeft(AbstractTreeNode left) {
-        // TODO: implementation
+        this.left = left;
     }
 
     /**
@@ -159,7 +189,7 @@ public class NonEmptyTreeNode implements AbstractTreeNode {
      * @param right the right child node to be assigned, represented as an {@code AbstractTreeNode}.
      */
     public void setRight(AbstractTreeNode right) {
-        // TODO: implementation
+        this.right = right;
     }
 
 }

@@ -37,19 +37,19 @@ public class Application {
         // feeding time
         System.out.println("All new and hungry dinos...");
         System.out.println("Angry dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.ANGRY));
-        System.out.println("Sad dinos:" + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
+        System.out.println("Sad dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
         System.out.println("Happy dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.HAPPY));
 
         System.out.println("Feed some meat...");
         corp.feed(Dinosaur.Food.MEAT);
         System.out.println("Angry dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.ANGRY));
-        System.out.println("Sad dinos:" + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
+        System.out.println("Sad dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
         System.out.println("Happy dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.HAPPY));
 
         System.out.println("Feed some plants...");
         corp.feed(Dinosaur.Food.PLANTS);
         System.out.println("Angry dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.ANGRY));
-        System.out.println("Sad dinos:" + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
+        System.out.println("Sad dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.SAD));
         System.out.println("Happy dinos: " + corp.countAnimalsByMood(Dinosaur.Happiness.HAPPY));
         System.out.println();
 
@@ -125,7 +125,191 @@ public class Application {
             System.out.println(dino);
         }
 
-        // TODO: implementation of any developer specific tests (optional)
+        testEdmontosaurusHappinessDecrease();
+        testLeafRemoval();
+        testFindAnimalByNameInNullTree();
+        testFactoryOverflow();
+        testEmptyOrderString();
+    }
 
+    public static void testEdmontosaurusHappinessDecrease() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        AB4.Interfaces.AbstractDinosaurFactory edSFactory = new EdSFactory();
+        Dinosaur edmontosaurus = edSFactory.create(1, "Melsa");
+
+        System.out.printf("|- initially %s ", Dinosaur.Happiness.HAPPY);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.HAPPY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- decrease to %s ", Dinosaur.Happiness.SAD);
+        edmontosaurus.feed(Dinosaur.Food.MEAT);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.SAD) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- decrease to %s ", Dinosaur.Happiness.ANGRY);
+        edmontosaurus.feed(Dinosaur.Food.MEAT);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.ANGRY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- decrease stays %s ", Dinosaur.Happiness.ANGRY);
+        edmontosaurus.feed(Dinosaur.Food.MEAT);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.ANGRY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("|- veggies reset to %s ", Dinosaur.Happiness.HAPPY);
+        edmontosaurus.feed(Dinosaur.Food.PLANTS);
+        if (edmontosaurus.getHappiness() == Dinosaur.Happiness.HAPPY) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  got happiness %s%n", edmontosaurus.getHappiness());
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testLeafRemoval() {
+        System.out.println("* test leaf child removal");
+
+        AB4.Interfaces.AbstractDinosaurFactory edSFactory = new EdSFactory();
+        NonEmptyTreeNode root = new NonEmptyTreeNode(edSFactory.create(1, "Melsa"));
+        root.store(edSFactory.create(0, "Tial"));
+        root.store(edSFactory.create(2, "Firs"));
+
+        System.out.println("|- tree has a correct initial structure");
+        System.out.print("|--- root has a non empty left child ");
+        if (root.getLeft() instanceof NonEmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    left child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+        System.out.print("|--- root has a non empty right child ");
+        if (root.getRight() instanceof NonEmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    right child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+
+        System.out.print("|- remove left child ");
+        root.remove(0);
+        if (root.getLeft() instanceof EmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    left child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+
+        System.out.print("|- remove right child ");
+        root.remove(2);
+        if (root.getLeft() instanceof EmptyTreeNode) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|    right child is a %s%n", root.getLeft().getClass());
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testFindAnimalByNameInNullTree() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        AB4.Interfaces.AbstractDinosaurFactory edSFactory = new EdSFactory();
+        NonEmptyTreeNode root = new NonEmptyTreeNode(edSFactory.create(1, "Melsa"));
+        root.store(edSFactory.create(0, "Tial"));
+        root.store(edSFactory.create(2, "Firs"));
+
+        System.out.print("|- find by name succeeds initially ");
+        var dino = root.findByName("Tial");
+        if (dino.getDNA() == 0 && dino.getName().equals("Tial")) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  Got %s%n", dino);
+            return;
+        }
+
+        System.out.print("|- find by name succeeds after removal ");
+        root.remove(1);
+        dino = root.findByName("Tial");
+        if (dino.getDNA() == 0 && dino.getName().equals("Tial")) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.printf("|  Got %s%n", dino);
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testFactoryOverflow() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        System.out.print("|- 10 (adjust to DinoCorp.MAX_FACTORIES) factories can be registered initially ");
+        var corp = new DinoCorp(EmptyTreeNode.NIL);
+        int i = 0;
+        for (; i < 10; i++) {
+            corp.registerFactory(new EdSFactory(), Integer.toString(i));
+        }
+        System.out.println("[PASS]");
+
+        System.out.print("|- another factory doesn't overflow ");
+        try {
+            corp.registerFactory(new EdSFactory(), Integer.toString(i));
+            System.out.println("[PASS]");
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            System.out.println("[PASS]");
+            ex.printStackTrace(); // custom exceptions and other exceptions (OOM) are allowed
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testEmptyOrderString() {
+        System.out.println("* test Edmontosaurus happiness decrease");
+
+        var corp = new DinoCorp(EmptyTreeNode.NIL);
+        corp.setOrders(new String[]{""});
+
+        System.out.print("|- an empty order gets skipped ");
+        if (!corp.processNextOrder()) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
     }
 }
