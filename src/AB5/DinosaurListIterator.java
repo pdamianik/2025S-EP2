@@ -43,6 +43,7 @@ public class DinosaurListIterator {
      * @return the current {@code AbstractListNode} in the iteration, or {@code null} if there are no more nodes.
      */
     public Dinosaur next() {
+        if (this.current == null) return null;
         Dinosaur result = this.current.value();
         this.current = this.current.next();
         return result;

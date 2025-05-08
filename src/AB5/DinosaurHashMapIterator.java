@@ -33,7 +33,6 @@ public class DinosaurHashMapIterator {
      */
     public DinosaurHashMapIterator(BucketList[] buckets){
         this.buckets = buckets;
-        this.currentBucketIterator = this.buckets[this.bucketIndex].iterator();
     }
 
     /**
@@ -66,8 +65,8 @@ public class DinosaurHashMapIterator {
      * @return true if there are more elements to iterate over, false otherwise.
      */
     public boolean hasNext(){
-        while (!this.currentBucketIterator.hasNext() && this.setNextNonEmptyBucket());
-        return this.currentBucketIterator.hasNext();
+        while ((this.currentBucketIterator == null || !this.currentBucketIterator.hasNext()) && this.setNextNonEmptyBucket());
+        return this.currentBucketIterator != null && this.currentBucketIterator.hasNext();
     }
 
     /**
@@ -80,7 +79,7 @@ public class DinosaurHashMapIterator {
      * @return the next {@code Dinosaur} object if available; {@code null} if there are no more elements.
      */
     public Dinosaur next(){
-        while (!this.currentBucketIterator.hasNext() && this.setNextNonEmptyBucket());
-        return this.currentBucketIterator.next();
+        while ((this.currentBucketIterator == null || !this.currentBucketIterator.hasNext()) && this.setNextNonEmptyBucket());
+        return this.currentBucketIterator == null ? null : this.currentBucketIterator.next();
     }
 }

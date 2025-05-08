@@ -82,6 +82,7 @@ public class Application {
         System.out.println();
 
         testHashmapZeroCapacity();
+        testIteratorOverflow();
     }
 
     public static void testHashmapZeroCapacity() {
@@ -230,6 +231,56 @@ public class Application {
             return;
         }
 
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testIteratorOverflow() {
+        System.out.println("* test iterator overflow");
+
+        System.out.print("|- next on an empty list should return null ");
+        DinosaurBucketList list = new DinosaurBucketList();
+        DinosaurListIterator listIterator = list.iterator();
+        if (listIterator.next() == null && listIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over an empty list");
+            return;
+        }
+
+        System.out.print("|- next on a list with 1 element should return null after one next call ");
+        list.store(new Edmontosaurus(new DinosaurDNA(1), "Melsa"));
+        listIterator = list.iterator();
+        if (listIterator.next() != null && listIterator.next() == null && listIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over a list with 1 element");
+            return;
+        }
+
+        System.out.print("|- next on an empty hashmap should return null ");
+        DinosaurHashMap hashMap = new DinosaurHashMap();
+        DinosaurHashMapIterator mapIterator = hashMap.iterator();
+        if (mapIterator.next() == null && mapIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over an empty hashmap");
+            return;
+        }
+
+        System.out.print("|- next on a hashmap with 1 element should return null after one next call ");
+        hashMap.put(new Edmontosaurus(new DinosaurDNA(1), "Melsa"));
+        mapIterator = hashMap.iterator();
+        if (mapIterator.next() != null && mapIterator.next() == null && mapIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over a hashmap with 1 element");
+            return;
+        }
 
         System.out.printf("\\%s%n", "-".repeat(10));
     }
