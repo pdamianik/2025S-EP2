@@ -47,6 +47,8 @@ public class DinosaurHashMap implements HashMap {
      *                      default value is used {@code DEFAULT_MAX_BUCKET_SIZE}.
      */
     public DinosaurHashMap(int capacity, int maxBucketSize) {
+        if (capacity <= 0) capacity = DEFAULT_NUM_OF_BUCKETS;
+        if (maxBucketSize <= 0) maxBucketSize = DEFAULT_MAX_BUCKET_SIZE;
         this.buckets = new BucketList[capacity];
         this.maxBucketSize = maxBucketSize;
 
