@@ -22,8 +22,7 @@ public class DinosaurHashMap implements HashMap {
 
     private BucketList[] buckets;
     private int maxBucketSize;   // maximum number of dinos stored within a bucket
-
-    // TODO: variable declarations (optional)
+    private int size;
 
     /**
      * Constructs a new instance of DinosaurHashMap with default capacity and default maximum bucket depth.
@@ -34,8 +33,8 @@ public class DinosaurHashMap implements HashMap {
      * will initialize with suitable defaults for efficient operation.</p>
      */
     public DinosaurHashMap() {
-        // TODO: implementation
-
+        this.buckets = new BucketList[DEFAULT_NUM_OF_BUCKETS];
+        this.maxBucketSize = DEFAULT_MAX_BUCKET_SIZE;
     }
 
     /**
@@ -48,7 +47,8 @@ public class DinosaurHashMap implements HashMap {
      *                      default value is used {@code DEFAULT_MAX_BUCKET_SIZE}.
      */
     public DinosaurHashMap(int capacity, int maxBucketSize) {
-        // TODO: implementation
+        this.buckets = new BucketList[capacity];
+        this.maxBucketSize = maxBucketSize;
 
     }
 
@@ -65,9 +65,25 @@ public class DinosaurHashMap implements HashMap {
      *         containing all rehashed elements.
      */
     private BucketList[] reorganizeBuckets(int newCapacity) {
-        // TODO: implementation
+        if (newCapacity <= 0) newCapacity = DEFAULT_NUM_OF_BUCKETS;
 
-        return null;
+        DinosaurHashMapIterator dinosaurs = this.iterator();
+        BucketList[] newBuckets = new BucketList[newCapacity];
+
+        while (dinosaurs.hasNext()) {
+            var dinosaur = dinosaurs.next();
+            int index = dinosaur.getDNA().hashCode() % newCapacity;
+            if (newBuckets[index] == null) {
+                newBuckets[index] = new DinosaurBucketList();
+            }
+            newBuckets[index].store(dinosaur);
+        }
+
+        return newBuckets;
+    }
+
+    private int calculateIndex(DinosaurDNA dna) {
+        return dna.hashCode() % this.buckets.length;
     }
 
     /**
@@ -87,10 +103,20 @@ public class DinosaurHashMap implements HashMap {
      */
     @Override
     public Dinosaur put(Dinosaur dinosaur) {
-        // TODO: implementation
-        // Hint: use reorganizeBuckets() if any bucket size exceeds the maximum allowed size
+        int index = this.calculateIndex(dinosaur.getDNA());
+        if (this.buckets[index] == null) {
+            this.buckets[index] = new DinosaurBucketList();
+        }
+        BucketList bucket = this.buckets[index];
 
-        return null;
+        Dinosaur existing = bucket.store(dinosaur);
+        if (existing == null) this.size++;
+
+        if (bucket.size() > maxBucketSize) {
+            this.buckets = this.reorganizeBuckets(this.buckets.length * 2);
+        }
+
+        return existing;
     }
 
     /**
@@ -103,9 +129,9 @@ public class DinosaurHashMap implements HashMap {
      */
     @Override
     public Dinosaur get(DinosaurDNA dna) {
-        // TODO: implementation
-
-        return null;
+        BucketList bucket = this.buckets[this.calculateIndex(dna)];
+        if (bucket == null) return null;
+        return bucket.find(dna);
     }
 
     /**
@@ -120,9 +146,11 @@ public class DinosaurHashMap implements HashMap {
      */
     @Override
     public Dinosaur remove(DinosaurDNA dna) {
-        // TODO: implementation
-
-        return null;
+        BucketList bucket = this.buckets[this.calculateIndex(dna)];
+        if (bucket == null) return null;
+        var removed =  bucket.remove(dna);
+        if (removed != null) this.size--;
+        return removed;
     }
 
     /**
@@ -132,8 +160,12 @@ public class DinosaurHashMap implements HashMap {
      */
     @Override
     public void clear() {
-        // TODO: implementation
-
+        for (BucketList bucket : this.buckets) {
+            if (bucket != null) {
+                bucket.clear();
+            }
+        }
+        this.size = 0;
     }
 
     /**
@@ -144,9 +176,7 @@ public class DinosaurHashMap implements HashMap {
      */
     @Override
     public int size() {
-        // TODO: implementation
-
-        return 0;
+        return this.size;
     }
 
     /**
@@ -154,8 +184,6 @@ public class DinosaurHashMap implements HashMap {
      * @return a {@code DinosaurHashMapIterator} that can be used to iterate over all elements in the hashmap.
      */
     public DinosaurHashMapIterator iterator() {
-        // TODO: implementation
-
-        return null;
+        return new DinosaurHashMapIterator(this.buckets);
     }
 }

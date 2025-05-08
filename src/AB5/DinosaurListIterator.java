@@ -13,8 +13,6 @@ import AB5.Interfaces.Dinosaur;
 public class DinosaurListIterator {
     private AbstractListNode current;
 
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs a {@code DinosaurListIterator} initialized with the given starting node.
      * This iterator allows traversal through a linked list structure composed of {@code AbstractListNode} elements.
@@ -23,8 +21,7 @@ public class DinosaurListIterator {
      *                Can be {@code null}, which indicates that the iterator is positioned at the end of the list or list is empty.
      */
     public DinosaurListIterator(AbstractListNode current) {
-        // TODO: implementation
-
+        this.current = current;
     }
 
     /**
@@ -34,9 +31,7 @@ public class DinosaurListIterator {
      * {@code false} if the end of the list has been reached or the list is empty.
      */
     public boolean hasNext() {
-        // TODO: implementation
-
-        return false;
+        return this.current != null;
     }
 
     /**
@@ -48,8 +43,8 @@ public class DinosaurListIterator {
      * @return the current {@code AbstractListNode} in the iteration, or {@code null} if there are no more nodes.
      */
     public Dinosaur next() {
-        // TODO: implementation
-
-        return null;
+        Dinosaur result = this.current.value();
+        this.current = this.current.next();
+        return result;
     }
 }
