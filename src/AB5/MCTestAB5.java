@@ -15,9 +15,9 @@ public class MCTestAB5 {
                         "Welche der folgenden Aussagen treffen auf Iteratoren in Java zu?",
 
                         new Choice(false, "Rekursive Traversierungen durch Iteratoren sind kaum sinnvoll.                     (1A)"),
-                        new Choice(false, "Iterator-Implementierungen sind eigene Klassen.                                    (1B)"),
+                        new Choice(true, "Iterator-Implementierungen sind eigene Klassen.                                    (1B)"),
                         new Choice(false, "Mehrere Iteratoren auf dem gleichen Objekt stören sich gegenseitig.                (1C)"),
-                        new Choice(false, "Lineare Listen sind meist einfacher iterierbar als Binärbäume.                     (1D)"),
+                        new Choice(true, "Lineare Listen sind meist einfacher iterierbar als Binärbäume.                     (1D)"),
                         new Choice(false, "Die Reihenfolge der Iterationen zeigt die Art der Datenstruktur.                   (1E)")
                 ),
 		
@@ -27,8 +27,8 @@ public class MCTestAB5 {
                         "boolean equals(Object obj)  und  int hashCode()  in Java gelten?",
 
                         new Choice(false, "null.equals(k)  gibt  false  zurück.                                               (2A)"),
-                        new Choice(false, "Aus  i.equals(j)  folgt  i.hashCode() == j.hashCode().                             (2B)"),
-                        new Choice(false, "Aus  i.equals(j)  und  j.equals(k)  folgt  k.equals(i).                            (2C)"),
+                        new Choice(true, "Aus  i.equals(j)  folgt  i.hashCode() == j.hashCode().                             (2B)"),
+                        new Choice(true, "Aus  i.equals(j)  und  j.equals(k)  folgt  k.equals(i).                            (2C)"),
                         new Choice(false, "Aus  i.hashCode() == j.hashCode()  folgt  i.equals(j).                             (2D)"),
                         new Choice(false, "Aus  i.equals(j)  folgt  !j.equals(i).                                             (2E)")
                 )

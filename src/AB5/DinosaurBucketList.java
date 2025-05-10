@@ -1,6 +1,7 @@
 package AB5;
 
 import AB5.Interfaces.*;
+import AB5.Provided.DinosaurListNode;
 
 /**
  * A concrete implementation of the {@code BucketList} interface that uses a linked list
@@ -11,17 +12,15 @@ import AB5.Interfaces.*;
  * supported for checking the list's state (e.g., size, emptiness) and clearing all elements.</p>
  */
 public class DinosaurBucketList implements BucketList {
-    private AbstractListNode head;
-
-    // TODO: variable declarations (optional)
+    private AbstractListNode head = new DinosaurListNode(null); // NIL node as empty list
+    private int size;
 
     /**
      * Constructor for the DinosaurBucketList class.
      * Initializes an empty bucket.
      */
     public DinosaurBucketList(){
-        // TODO: implementation
-
+        // use default values
     }
 
     /**
@@ -35,8 +34,17 @@ public class DinosaurBucketList implements BucketList {
      */
     @Override
     public Dinosaur store(Dinosaur dinosaur){
-        // TODO: implementation
+        AbstractListNode current = this.head;
+        for (AbstractListNode next; (next = current.next()) != null; current = next) {
+            if (next.value().equals(dinosaur)) {
+                Dinosaur existing = next.value();
+                next.setValue(dinosaur);
+                return existing;
+            }
+        }
 
+        current.setNext(new DinosaurListNode(dinosaur));
+        this.size++;
         return null;
     }
 
@@ -50,7 +58,15 @@ public class DinosaurBucketList implements BucketList {
      */
     @Override
     public Dinosaur remove(DinosaurDNA dna){
-        // TODO: implementation
+        AbstractListNode current = this.head;
+        for (AbstractListNode next; (next = current.next()) != null; current = next) {
+            if (next.value().getDNA().equals(dna)) {
+                Dinosaur dinosaur = next.value();
+                current.setNext(next.next());
+                this.size--;
+                return dinosaur;
+            }
+        }
 
         return null;
     }
@@ -65,7 +81,10 @@ public class DinosaurBucketList implements BucketList {
      */
     @Override
     public Dinosaur find(DinosaurDNA dna){
-        // TODO: implementation
+        for (AbstractListNode current = this.head.next(); current != null; current = current.next()) {
+            if (current.value().getDNA().equals(dna))
+                return current.value();
+        }
 
         return null;
     }
@@ -77,9 +96,7 @@ public class DinosaurBucketList implements BucketList {
      */
     @Override
     public boolean isEmpty(){
-        // TODO: implementation
-
-        return false;
+        return this.size == 0;
     }
 
     /**
@@ -89,9 +106,7 @@ public class DinosaurBucketList implements BucketList {
      */
     @Override
     public int size() {
-        // TODO: implementation
-
-        return 0;
+        return this.size;
     }
 
     /**
@@ -100,7 +115,8 @@ public class DinosaurBucketList implements BucketList {
      */
     @Override
     public void clear(){
-        // TODO: implementation
+        this.head.setNext(null);
+        this.size = 0;
     }
 
     /**
@@ -112,8 +128,6 @@ public class DinosaurBucketList implements BucketList {
      */
     @Override
     public DinosaurListIterator iterator() {
-        // TODO: implementation
-
-        return null;
+        return new DinosaurListIterator(this.head.next());
     }
 }

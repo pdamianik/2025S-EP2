@@ -17,8 +17,6 @@ public class TyrannosaurusRex implements Dinosaur {
     private final String name;
     private Happiness happiness;
 
-    // TODO: variable declarations (optional)
-
     /**
      * Computes the hash code for this TyrannosaurusRex instance based on its DNA.
      *
@@ -26,9 +24,7 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public int hashCode() {
-        // TODO: implementation
-
-        return 0;
+        return this.dna.hashCode();
     }
 
     /**
@@ -40,8 +36,9 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public boolean equals(Object obj) {
-        // TODO: implementation
-
+        if (obj instanceof TyrannosaurusRex tRex) {
+            return this.dna.equals(tRex.dna);
+        }
         return false;
     }
 

@@ -18,8 +18,6 @@ public class Edmontosaurus implements Dinosaur {
     private String name;
     private Happiness happiness;
 
-    // TODO: variable declarations (optional)
-
     /**
      * Computes the hash code for this Edmontosaurus instance based on its DNA.
      *
@@ -27,9 +25,7 @@ public class Edmontosaurus implements Dinosaur {
      */
     @Override
     public int hashCode() {
-        // TODO: implementation
-
-        return 0;
+        return this.dna.hashCode();
     }
 
     /**
@@ -41,8 +37,9 @@ public class Edmontosaurus implements Dinosaur {
      */
     @Override
     public boolean equals(Object obj) {
-        // TODO: implementation
-
+        if (obj instanceof Edmontosaurus edmontosaurus) {
+            return this.dna.equals(edmontosaurus.dna);
+        }
         return false;
     }
 
