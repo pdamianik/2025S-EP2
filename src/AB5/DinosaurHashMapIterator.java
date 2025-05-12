@@ -46,10 +46,10 @@ public class DinosaurHashMapIterator {
      *         {@code false} otherwise, indicating that there are no more non-empty buckets.
      */
     private boolean setNextNonEmptyBucket(){
-        if (this.bucketIndex < this.buckets.length) this.bucketIndex++;
         for (; this.bucketIndex < this.buckets.length; this.bucketIndex++) {
             if (this.buckets[this.bucketIndex] != null && !this.buckets[bucketIndex].isEmpty()) {
                 this.currentBucketIterator = this.buckets[this.bucketIndex].iterator();
+                if (this.bucketIndex < this.buckets.length) this.bucketIndex++;
                 return true;
             }
         }
