@@ -9,15 +9,13 @@ package AB5;
 public class DinosaurDNA {
     private int geneticCode;
 
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs a DinosaurDNA object with the given genetic code.
      *
      * @param geneticCode an integer representing the genetic information of a dinosaur
      */
     public DinosaurDNA(int geneticCode) {
-        // TODO: implementation
+        this.geneticCode = geneticCode;
     }
 
     /**
@@ -26,9 +24,7 @@ public class DinosaurDNA {
      * @return an integer representing the genetic code of the dinosaur
      */
     public int getGeneticCode() {
-        // TODO: implementation
-
-        return 0;
+        return this.geneticCode;
     }
 
     /**
@@ -41,8 +37,9 @@ public class DinosaurDNA {
      */
     @Override
     public boolean equals(Object obj) {
-        // TODO: implementation
-
+        if (obj instanceof DinosaurDNA dna) {
+            return this.geneticCode == dna.geneticCode;
+        }
         return false;
     }
 
@@ -53,9 +50,7 @@ public class DinosaurDNA {
      */
     @Override
     public int hashCode() {
-        // TODO: implementation
-
-        return 0;
+        return Integer.hashCode(this.geneticCode);
     }
 
     /**
@@ -70,9 +65,7 @@ public class DinosaurDNA {
      */
     @Override
     public String toString() {
-        // TODO: implementation
-
-        return "";
+        return String.format("DNA: %s (%d)", Integer.toBinaryString(this.geneticCode), this.geneticCode);
     }
 
 }

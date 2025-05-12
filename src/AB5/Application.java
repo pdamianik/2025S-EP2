@@ -1,6 +1,9 @@
 package AB5;
 
+import AB5.Interfaces.BucketList;
 import AB5.Interfaces.Dinosaur;
+
+import java.lang.reflect.Field;
 
 public class Application {
     public static void main(String[] args) {
@@ -78,7 +81,207 @@ public class Application {
         }
         System.out.println();
 
-        // TODO: implementation of any developer specific tests (optional)
+        testHashmapZeroCapacity();
+        testIteratorOverflow();
+    }
 
+    public static void testHashmapZeroCapacity() {
+        System.out.println("* test hashmap with zero capacity");
+
+        final int DEFAULT_NUM_OF_BUCKETS;
+        try {
+            Field capacityField = DinosaurHashMap.class.getDeclaredField("DEFAULT_NUM_OF_BUCKETS");
+            if (!capacityField.trySetAccessible()) {
+                System.err.println("[FAIL] The field DinosaurHashmap.DEFAULT_NUM_OF_BUCKETS field could not be set accessible");
+                return;
+            }
+            DEFAULT_NUM_OF_BUCKETS = (int) capacityField.get(null);
+        } catch (NoSuchFieldException e) {
+            System.err.println("The field DinosaurHashmap.DEFAULT_NUM_OF_BUCKETS could not found (may need adjustment)");
+            e.printStackTrace();
+            return;
+        } catch (IllegalAccessException e) {
+            System.out.println("[FAIL]");
+            System.err.println("The field DinosaurHashmap.DEFAULT_NUM_OF_BUCKETS could not be accessed, even after setting the accessible flag");
+            return;
+        }
+
+        final int DEFAULT_MAX_BUCKET_SIZE;
+        try {
+            Field maxCapacityField = DinosaurHashMap.class.getDeclaredField("DEFAULT_MAX_BUCKET_SIZE");
+            if (!maxCapacityField.trySetAccessible()) {
+                System.err.println("[FAIL] The field DinosaurHashmap.DEFAULT_MAX_BUCKET_SIZE field could not be set accessible");
+                return;
+            }
+            DEFAULT_MAX_BUCKET_SIZE = (int) maxCapacityField.get(null);
+        } catch (NoSuchFieldException e) {
+            System.err.println("The field DinosaurHashmap.DEFAULT_MAX_BUCKET_SIZE could not found (may need adjustment)");
+            e.printStackTrace();
+            return;
+        } catch (IllegalAccessException e) {
+            System.out.println("[FAIL]");
+            System.err.println("The field DinosaurHashmap.DEFAULT_MAX_BUCKET_SIZE could not be accessed, even after setting the accessible flag");
+            return;
+        }
+
+        System.out.print("|- create a zero sized hashmap ");
+        DinosaurHashMap map = new DinosaurHashMap(0, DEFAULT_MAX_BUCKET_SIZE);
+        try {
+            Field bucketsField = DinosaurHashMap.class.getDeclaredField("buckets");
+            if (!bucketsField.trySetAccessible()) {
+                System.out.println("[FAIL]");
+                System.err.println("The buckets field could not be set accessible");
+                return;
+            }
+            var buckets = (BucketList[])bucketsField.get(map);
+
+            if (buckets.length == DEFAULT_NUM_OF_BUCKETS) {
+                System.out.println("[PASS]");
+            } else {
+                System.out.println("[FAIL]");
+                System.err.printf("The capacity of the hashmap is %d not %d%n", buckets.length, DEFAULT_NUM_OF_BUCKETS);
+                return;
+            }
+        } catch (NoSuchFieldException e) {
+            System.out.println("[FAIL]");
+            System.err.println("Please adjust the name of the buckets field");
+            return;
+        } catch (IllegalAccessException e) {
+            System.out.println("[FAIL]");
+            System.err.println("The buckets field could not be accessed, even after setting the accessible flag");
+            return;
+        }
+
+        System.out.print("|- create a zero max sized hashmap ");
+        map = new DinosaurHashMap(DEFAULT_NUM_OF_BUCKETS, 0);
+        try {
+            Field maxBucketSizeField = DinosaurHashMap.class.getDeclaredField("maxBucketSize");
+            if (!maxBucketSizeField.trySetAccessible()) {
+                System.out.println("[FAIL]");
+                System.err.println("The maxBucketSize field could not be set accessible");
+                return;
+            }
+            var maxBucketSize = (int)maxBucketSizeField.get(map);
+
+            if (maxBucketSize == DEFAULT_MAX_BUCKET_SIZE) {
+                System.out.println("[PASS]");
+            } else {
+                System.out.println("[FAIL]");
+                System.err.printf("The maxBucketSize field of the hashmap is %d not %d%n", maxBucketSize, DEFAULT_MAX_BUCKET_SIZE);
+                return;
+            }
+        } catch (NoSuchFieldException e) {
+            System.out.println("[FAIL]");
+            System.err.println("Please adjust the name of the maxBucketSize field");
+            return;
+        } catch (IllegalAccessException e) {
+            System.out.println("[FAIL]");
+            System.err.println("The maxBucketSize field could not be accessed, even after setting the accessible flag");
+            return;
+        }
+
+        System.out.print("|- create a zero sized and max sized hashmap ");
+        map = new DinosaurHashMap(0, 0);
+        try {
+            Field bucketsField = DinosaurHashMap.class.getDeclaredField("buckets");
+            if (!bucketsField.trySetAccessible()) {
+                System.out.println("[FAIL]");
+                System.err.println("The buckets field could not be set accessible");
+                return;
+            }
+            var buckets = (BucketList[])bucketsField.get(map);
+
+            if (buckets.length != DEFAULT_NUM_OF_BUCKETS) {
+                System.out.println("[FAIL]");
+                System.err.printf("The capacity of the hashmap is %d not %d%n", buckets.length, DEFAULT_NUM_OF_BUCKETS);
+                return;
+            }
+        } catch (NoSuchFieldException e) {
+            System.out.println("[FAIL]");
+            System.err.println("Please adjust the name of the buckets field");
+            return;
+        } catch (IllegalAccessException e) {
+            System.out.println("[FAIL]");
+            System.err.println("The buckets field could not be accessed, even after setting the accessible flag");
+            return;
+        }
+        try {
+            Field maxBucketSizeField = DinosaurHashMap.class.getDeclaredField("maxBucketSize");
+            if (!maxBucketSizeField.trySetAccessible()) {
+                System.out.println("[FAIL]");
+                System.err.println("The maxBucketSize field could not be set accessible");
+                return;
+            }
+            var maxBucketSize = (int)maxBucketSizeField.get(map);
+
+            if (maxBucketSize == DEFAULT_MAX_BUCKET_SIZE) {
+                System.out.println("[PASS]");
+            } else {
+                System.out.println("[FAIL]");
+                System.err.printf("The maxBucketSize field of the hashmap is %d not %d%n", maxBucketSize, DEFAULT_MAX_BUCKET_SIZE);
+                return;
+            }
+        } catch (NoSuchFieldException e) {
+            System.out.println("[FAIL]");
+            System.err.println("Please adjust the name of the maxBucketSize field");
+            return;
+        } catch (IllegalAccessException e) {
+            System.out.println("[FAIL]");
+            System.err.println("The maxBucketSize field could not be accessed, even after setting the accessible flag");
+            return;
+        }
+
+
+        System.out.printf("\\%s%n", "-".repeat(10));
+    }
+
+    public static void testIteratorOverflow() {
+        System.out.println("* test iterator overflow");
+
+        System.out.print("|- next on an empty list should return null ");
+        DinosaurBucketList list = new DinosaurBucketList();
+        DinosaurListIterator listIterator = list.iterator();
+        if (listIterator.next() == null && listIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over an empty list");
+            return;
+        }
+
+        System.out.print("|- next on a list with 1 element should return null after one next call ");
+        list.store(new Edmontosaurus(new DinosaurDNA(1), "Melsa"));
+        listIterator = list.iterator();
+        if (listIterator.next() != null && listIterator.next() == null && listIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over a list with 1 element");
+            return;
+        }
+
+        System.out.print("|- next on an empty hashmap should return null ");
+        DinosaurHashMap hashMap = new DinosaurHashMap();
+        DinosaurHashMapIterator mapIterator = hashMap.iterator();
+        if (mapIterator.next() == null && mapIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over an empty hashmap");
+            return;
+        }
+
+        System.out.print("|- next on a hashmap with 1 element should return null after one next call ");
+        hashMap.put(new Edmontosaurus(new DinosaurDNA(1), "Melsa"));
+        mapIterator = hashMap.iterator();
+        if (mapIterator.next() != null && mapIterator.next() == null && mapIterator.next() == null) {
+            System.out.println("[PASS]");
+        } else {
+            System.out.println("[FAIL]");
+            System.err.println("Got non null value after iterating over a hashmap with 1 element");
+            return;
+        }
+
+        System.out.printf("\\%s%n", "-".repeat(10));
     }
 }
