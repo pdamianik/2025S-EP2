@@ -38,19 +38,16 @@ public class ArenaBattleSimulation implements BattleSimulation {
 
         var planA = dinoA.getFightingBehavior();
         var planB = dinoB.getFightingBehavior();
-        int winsA = 0, winsB = 0;
+        int score = 0;
         for (int round = 0; round < ArenaFightingBehavior.BATTLEPLAN_SIZE; round++) {
             var actionA = planA.getPlannedAction(round);
             var actionB = planB.getPlannedAction(round);
 
             int result = this.executeAction(actionA, actionB);
             this.logRound(round, actionA, actionB, result);
-
-            if (result == -1) winsA++;
-            else if (result == 1) winsB++;
+            score += result;
         }
 
-        int score = Integer.compare(winsB, winsA);
         this.logResult(score, dinoA, dinoB);
 
         if (score == 0) return null;
