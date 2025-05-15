@@ -11,8 +11,8 @@ import AB6.Interfaces.Dinosaur;
 public class TournamentResultIterator {
     private int[] scoreSheet;
     private Dinosaur[] roster;
-
-    // TODO: variable declarations (optional)
+    private boolean[] mask;
+    private int unmasked;
 
     /**
      * Constructs a TournamentResultIterator to iterate over the tournament results.
@@ -21,8 +21,10 @@ public class TournamentResultIterator {
      * @param scoreSheet an array of integers representing the scores (number of wins) of the dinosaurs in the tournament. Must not be {@code null}
      */
     public TournamentResultIterator(Dinosaur[] roster, int[] scoreSheet) {
-        // TODO: implementation
-
+        this.roster = roster;
+        this.scoreSheet = scoreSheet;
+        this.mask = new boolean[this.roster.length];
+        this.unmasked = this.roster.length;
     }
 
     /**
@@ -36,9 +38,7 @@ public class TournamentResultIterator {
      *         and meet the criteria; {@code false} otherwise.
      */
     public boolean hasNext() {
-        // TODO: implementation
-
-        return false;
+        return unmasked != 0;
     }
 
     /**
@@ -59,8 +59,18 @@ public class TournamentResultIterator {
      * @return the next unprocessed {@code Dinosaur} meeting the criteria, or {@code null} if no suitable dinosaur is found.
      */
     public Dinosaur next() {
-        // TODO: implementation
+        if (!this.hasNext()) return null;
 
-        return null;
+        int maxScore = -1, maxIndex = 0;
+        for (int i = 0; i < roster.length; i++) {
+            if (!this.mask[i] && this.scoreSheet[i] > maxScore) {
+                maxScore = this.scoreSheet[i];
+                maxIndex = i;
+            }
+        }
+
+        this.mask[maxIndex] = true;
+        this.unmasked--;
+        return this.roster[maxIndex];
     }
 }

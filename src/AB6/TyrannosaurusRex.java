@@ -29,9 +29,7 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public Sex getBiologicalSex() {
-        // TODO: implementation
-
-        return null;
+        return (this.dna.getGeneticCode() & 0x1) == 0 ? Sex.FEMALE : Sex.MALE;
     }
 
     /**
@@ -43,9 +41,7 @@ public class TyrannosaurusRex implements Dinosaur {
      */
     @Override
     public FightingBehavior getFightingBehavior() {
-        // TODO: implementation
-
-        return null;
+        return new ArenaFightingBehavior(this.dna);
     }
 
     // DO NOT MODIFY ANY METHODS BELOW THIS LINE!

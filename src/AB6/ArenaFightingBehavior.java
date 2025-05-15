@@ -13,8 +13,6 @@ public class ArenaFightingBehavior implements FightingBehavior {
     public static final int BATTLEPLAN_SIZE = 8;
     private Action[] battlePlan = new Action[BATTLEPLAN_SIZE];
 
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs an {@code ArenaFightingBehavior} object by decoding a dinosaur's DNA
      * into a battle plan consisting of individual actions.
@@ -27,8 +25,8 @@ public class ArenaFightingBehavior implements FightingBehavior {
      *            into a battle plan
      */
     public ArenaFightingBehavior(DinosaurDNA dna) {
-        // TODO: implementation
-
+        int geneSequence = dna.getGeneticCode() >> 4;
+        this.decodeBehavior(geneSequence);
     }
 
     /**
@@ -44,8 +42,9 @@ public class ArenaFightingBehavior implements FightingBehavior {
      */
     @Override
     public void decodeBehavior(int geneSequence) {
-        // TODO: implementation
-
+        for (int i = 0; i < BATTLEPLAN_SIZE; i++, geneSequence >>= 2) {
+            this.battlePlan[i] = this.decodeActionGene((byte)(geneSequence & 0b11));
+        }
     }
 
     /**
@@ -60,9 +59,20 @@ public class ArenaFightingBehavior implements FightingBehavior {
      */
     @Override
     public Action decodeActionGene(byte gene) {
-        // TODO: implementation
-
-        return null;
+        switch (gene) {
+            case 0b01 -> {
+                return Action.DODGE;
+            }
+            case 0b10 -> {
+                return Action.TAIL_WHIP;
+            }
+            case 0b11 -> {
+                return Action.BITE;
+            }
+            default -> {
+                return Action.NONE;
+            }
+        }
     }
 
     /**
@@ -75,8 +85,7 @@ public class ArenaFightingBehavior implements FightingBehavior {
      */
     @Override
     public Action getPlannedAction(int index) {
-        // TODO: implementation
-
-        return null;
+        if (index < 0 || index >= BATTLEPLAN_SIZE) return Action.NONE;
+        return this.battlePlan[index];
     }
 }
