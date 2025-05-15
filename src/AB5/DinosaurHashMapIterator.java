@@ -18,8 +18,6 @@ public class DinosaurHashMapIterator {
     private int bucketIndex;              // the currently processed bucket
     private DinosaurListIterator currentBucketIterator; // the list iterator of the currently processed bucket
 
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs a {@code DinosaurHashMapIterator}.
      *
