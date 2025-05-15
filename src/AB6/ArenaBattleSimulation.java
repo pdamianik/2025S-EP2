@@ -5,8 +5,6 @@ import AB6.Interfaces.Dinosaur;
 import AB6.Interfaces.FightingBehavior.Action;
 
 public class ArenaBattleSimulation implements BattleSimulation {
-    // TODO: variable declarations (optional)
-
     /**
      * Executes a fight between two dinosaurs based on their respective fighting behaviors.
      *
@@ -27,9 +25,35 @@ public class ArenaBattleSimulation implements BattleSimulation {
      */
     @Override
     public Dinosaur executeFight(Dinosaur dinoA, Dinosaur dinoB) {
-        // TODO: implementation
+        if (dinoA == null && dinoB == null)
+            return null;
+        else if (dinoA == null)
+            return dinoB;
+        else if (dinoB == null)
+            return dinoA;
 
-        return null;
+        this.logFight(dinoA, dinoB);
+
+        var planA = dinoA.getFightingBehavior();
+        var planB = dinoB.getFightingBehavior();
+        int winsA = 0, winsB = 0;
+        for (int round = 0; round < ArenaFightingBehavior.BATTLEPLAN_SIZE; round++) {
+            var actionA = planA.getPlannedAction(round);
+            var actionB = planB.getPlannedAction(round);
+
+            int result = this.executeAction(actionA, actionB);
+            this.logRound(round, actionA, actionB, result);
+
+            if (result == -1) winsA++;
+            else if (result == 1) winsB++;
+        }
+
+        int score = Integer.compare(winsB, winsA);
+        this.logResult(score, dinoA, dinoB);
+
+        if (score == 0) return null;
+        else if (score < 0) return dinoA;
+        else return dinoB;
     }
 
     /**
@@ -52,8 +76,23 @@ public class ArenaBattleSimulation implements BattleSimulation {
      */
     @Override
     public int executeAction(Action actionA, Action actionB) {
-        // TODO: implementation
+        if (actionA == actionB) return 0;
 
+        switch (actionA) {
+            case NONE -> { return 1; }
+            case DODGE -> {
+                if (actionB == Action.TAIL_WHIP) return 1;
+                return -1;
+            }
+            case BITE -> {
+                if (actionB == Action.DODGE) return 1;
+                return -1;
+            }
+            case TAIL_WHIP -> {
+                if (actionB == Action.BITE) return 1;
+                return -1;
+            }
+        }
         return 0;
     }
 

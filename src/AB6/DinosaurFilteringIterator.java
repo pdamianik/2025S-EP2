@@ -8,8 +8,6 @@ public class DinosaurFilteringIterator {
     private AbstractListNode current;
     private Predicate filterCriterion;
 
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs a {@code DinosaurFilteringIterator} initialized with the given starting node. This iterator
      * provides a filtered view of the underlying linked list structure.
@@ -22,7 +20,8 @@ public class DinosaurFilteringIterator {
      * @param filterCriterion the predicate used to determine if a node should be included in the iteration.
      */
     public DinosaurFilteringIterator(AbstractListNode current, Predicate filterCriterion) {
-        // TODO: implementation
+        this.current = current;
+        this.filterCriterion = filterCriterion;
 
     }
 
@@ -34,9 +33,10 @@ public class DinosaurFilteringIterator {
      * {@code false} if the end of the list has been reached or the list is empty.
      */
     public boolean hasNext() {
-        // TODO: implementation
-
-        return false;
+        while (current != null && !filterCriterion.test(current.value())) {
+            current = current.next();
+        }
+        return current != null;
     }
 
     /**
@@ -48,8 +48,9 @@ public class DinosaurFilteringIterator {
      * @return the current {@code Dinosaur} in the iteration, or {@code null} if there are no more nodes.
      */
     public Dinosaur next() {
-        // TODO: implementation
-
-        return null;
+        if (!this.hasNext()) return null;
+        var current = this.current;
+        this.current = current.next();
+        return current.value();
     }
 }
