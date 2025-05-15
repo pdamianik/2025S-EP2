@@ -5,6 +5,8 @@ import AB6.Interfaces.Dinosaur;
 import AB6.Interfaces.FightingBehavior.Action;
 
 public class ArenaBattleSimulation implements BattleSimulation {
+    private static final Action[] BEATS = new Action[] {/* DODGE beats */ Action.BITE, /* TAIL_WHIP beats */ Action.DODGE, /* BITE beats */ Action.TAIL_WHIP};
+
     /**
      * Executes a fight between two dinosaurs based on their respective fighting behaviors.
      *
@@ -77,23 +79,12 @@ public class ArenaBattleSimulation implements BattleSimulation {
     @Override
     public int executeAction(Action actionA, Action actionB) {
         if (actionA == actionB) return 0;
-
-        switch (actionA) {
-            case NONE -> { return 1; }
-            case DODGE -> {
-                if (actionB == Action.TAIL_WHIP) return 1;
-                return -1;
-            }
-            case BITE -> {
-                if (actionB == Action.DODGE) return 1;
-                return -1;
-            }
-            case TAIL_WHIP -> {
-                if (actionB == Action.BITE) return 1;
-                return -1;
-            }
-        }
-        return 0;
+        int actionAOrdinal = actionA.ordinal(), actionBOrdinal = actionB.ordinal();
+        if (actionB == Action.NONE || actionAOrdinal < BEATS.length && BEATS[actionAOrdinal] == actionB)
+            return -1;
+        else if (actionA == Action.NONE || actionBOrdinal < BEATS.length && BEATS[actionBOrdinal] == actionA)
+            return 1;
+        else return 0;
     }
 
     /**
