@@ -14,8 +14,6 @@ public class Arena {
     private int[] scoreSheet;
     private BattleSimulation sim = null;
 
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs an {@code Arena} object and initializes its roster and scoresheet using the provided collection
      * of dinosaur fighters.
@@ -34,8 +32,9 @@ public class Arena {
      *                 It must not be {@code null}.
      */
     public Arena(BattleSimulation sim, DinosaurCollection fighters) {
-        // TODO: implementation
-
+        this.sim = sim;
+        this.roster = this.buildRoster(fighters);
+        this.scoreSheet = new int[this.roster.length];
     }
 
     /**
@@ -48,9 +47,14 @@ public class Arena {
      * @return an array of Dinosaur objects extracted from the provided collection.
      */
     private Dinosaur[] buildRoster(DinosaurCollection fighters) {
-        // TODO: implementation
+        Dinosaur[] roster = new Dinosaur[fighters.size()];
 
-        return null;
+        var iter = fighters.iterator();
+        for (int i = 0; i < roster.length; i++) {
+            roster[i] = iter.next();
+        }
+
+        return roster;
     }
 
 
@@ -70,7 +74,14 @@ public class Arena {
      * participating dinosaurs, while the scoresheet corresponds to and matches the roster.
      */
     public void runTournament() {
-        // TODO: implementation
+        for (int a = 0; a < this.roster.length - 1; a++) {
+            for (int b = a + 1; b < this.roster.length; b++) {
+                Dinosaur dinoA = this.roster[a], dinoB = this.roster[b];
+                Dinosaur winner = this.sim.executeFight(dinoA, dinoB);
+                if (winner == dinoA) this.scoreSheet[a]++;
+                if (winner == dinoB) this.scoreSheet[b]++;
+            }
+        }
     }
 
     /**
@@ -84,8 +95,6 @@ public class Arena {
      * (first come, first serve).
      */
     public TournamentResultIterator getResultIterator() {
-        // TODO: implementation
-
-        return null;
+        return new TournamentResultIterator(this.roster, this.scoreSheet);
     }
 }

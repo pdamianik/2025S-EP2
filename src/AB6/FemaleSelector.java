@@ -12,9 +12,6 @@ import AB6.Interfaces.Predicate;
  * is {@code FEMALE}, and {@code false} otherwise.</p>
  */
 public class FemaleSelector implements Predicate {
-
-    // TODO: variable declarations (optional)
-
     /**
      * Tests if the given dinosaur is biologically female.
      *
@@ -23,8 +20,6 @@ public class FemaleSelector implements Predicate {
      */
     @Override
     public boolean test(Dinosaur dinosaur) {
-        // TODO: implementation
-
-        return false;
+        return dinosaur.getBiologicalSex() == Dinosaur.Sex.FEMALE;
     }
 }
