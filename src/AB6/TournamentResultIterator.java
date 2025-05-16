@@ -11,8 +11,7 @@ import AB6.Interfaces.Dinosaur;
 public class TournamentResultIterator {
     private int[] scoreSheet;
     private Dinosaur[] roster;
-    private boolean[] mask;
-    private int unmasked;
+    private int next;
 
     /**
      * Constructs a TournamentResultIterator to iterate over the tournament results.
@@ -23,8 +22,14 @@ public class TournamentResultIterator {
     public TournamentResultIterator(Dinosaur[] roster, int[] scoreSheet) {
         this.roster = roster;
         this.scoreSheet = scoreSheet;
-        this.mask = new boolean[this.roster.length];
-        this.unmasked = this.roster.length;
+
+        int maxScore = scoreSheet[0];
+        for (int i = 1; i < roster.length; i++) {
+            if (scoreSheet[i] > maxScore) {
+                this.next = i;
+                maxScore = scoreSheet[i];
+            }
+        }
     }
 
     /**
@@ -38,7 +43,8 @@ public class TournamentResultIterator {
      *         and meet the criteria; {@code false} otherwise.
      */
     public boolean hasNext() {
-        return unmasked != 0;
+        // no next element was found after the last
+        return next != -1;
     }
 
     /**
@@ -61,16 +67,25 @@ public class TournamentResultIterator {
     public Dinosaur next() {
         if (!this.hasNext()) return null;
 
-        int maxScore = -1, maxIndex = 0;
-        for (int i = 0; i < roster.length; i++) {
-            if (!this.mask[i] && this.scoreSheet[i] > maxScore) {
+        Dinosaur current = this.roster[this.next];
+
+        int maxScore = -1, maxIndex = -1, lastScore = this.scoreSheet[this.next];
+        // find the maximum smaller than our last element ordered before our last element
+        for (int i = 0; i < this.next; i++) {
+            if (this.scoreSheet[i] > maxScore && this.scoreSheet[i] < lastScore) {
                 maxScore = this.scoreSheet[i];
                 maxIndex = i;
             }
         }
+        // find the maximum smaller or equal to our last element ordered after our last element (equal scoring dinos are returned in order)
+        for (int i = this.next + 1; i < this.scoreSheet.length; i++) {
+            if (this.scoreSheet[i] > maxScore && this.scoreSheet[i] <= lastScore) {
+                maxScore = this.scoreSheet[i];
+                maxIndex = i;
+            }
+        }
+        this.next = maxIndex;
 
-        this.mask[maxIndex] = true;
-        this.unmasked--;
-        return this.roster[maxIndex];
+        return current;
     }
 }
