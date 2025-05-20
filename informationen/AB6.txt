@@ -1,0 +1,34 @@
+Ausgabe des Compilers (kann leer sein):
+Ausgabe der Tests:
+* Arena.java <0.9>
+  (0) Arena constructor [OK]
+  (1) Arena.buildRoster() [OK]
+  (2) Arena.runTournament() [OK]
+  (3) Arena.getResultIterator() [FAIL]
+* DinosaurFilteringIterator.java <0.6>
+  (0) DinosaurFilteringIterator constructor [FAIL]
+  (1) DinosaurFilteringIterator.hasNext() [OK]
+  (2) DinosaurFilteringIterator.next() [OK]
+* MaleSelector.java <0.5>
+  (0) MaleSelector.test() [OK]
+* ArenaBattleSimulation.java <1.5>
+  (0) ArenaBattleSimulation.executeFight() [OK]
+  (1) ArenaBattleSimulation.executeAction() [OK]
+* ArenaFightingBehavior.java <1.0>
+  (0) ArenaFightingBehavior constructor [OK]
+  (1) ArenaFightingBehavior.decodeBehavior() [OK]
+  (2) ArenaFightingBehavior.decodeActionGene() [OK]
+  (3) ArenaFightingBehavior.getPlannedAction() [OK]
+* TyrannosaurusRex.java <0.25>
+  (0) TyrannosaurusRex.getBiologicalSex() [OK]
+  (1) TyrannosaurusRex.getFightingBehavior() [OK]
+* FemaleSelector.java <0.5>
+  (0) FemaleSelector.test() [OK]
+* TournamentResultIterator.java <0.2>
+  (0) TournamentResultIterator constructor [OK]
+  (1) TournamentResultIterator.hasNext() [FAIL]
+  (2) TournamentResultIterator.next() [FAIL]
+* Edmontosaurus.java <0.25>
+  (0) Edmontosaurus.getBiologicalSex() [OK]
+  (1) Edmontosaurus.getFightingBehavior() [OK]
+Gesamt: 6 Punkte (ohne Aufrundung: 5.7 Punkte)
