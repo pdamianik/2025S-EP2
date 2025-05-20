@@ -53,7 +53,5 @@ public class Application {
             System.out.println("Rank " + position++ + ": " + resultIterator.next().getName());
         }
 
-        // TODO: implementation of any developer specific tests (optional)
-
     }
 }

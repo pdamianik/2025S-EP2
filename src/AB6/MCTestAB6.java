@@ -14,21 +14,21 @@ public class MCTestAB6 {
                 new Question(
                         "Welche der folgenden Aussagen treffen in Bezug auf Algorithmen und Datenstrukturen zu?",
 
-                        new Choice(false, "Mergesort wird auf Arrays häufiger eingesetzt als Quicksort.                       (1A)"),
-                        new Choice(false, "Hash-Tabellen werden wegen ihrer Zufallsabhängigkeit kaum verwendet.               (1B)"),
-                        new Choice(false, "Hash-Tabellen sind für geordnete Daten ungeeignet.                                 (1C)"),
-                        new Choice(false, "Arrays verwenden wir meist nur wo andere Datenstrukturen nicht passen.             (1D)"),
-                        new Choice(false, "Arrays sind für die meisten Anwendungen zu ineffizient.                            (1E)")
+                        new Choice(false, "Mergesort wird auf Arrays häufiger eingesetzt als Quicksort.                       (1A)"), // Quicksort ist in place und kann daher cache locality ausnutzen und muss keine neuen heap allocations machen.
+                        new Choice(false, "Hash-Tabellen werden wegen ihrer Zufallsabhängigkeit kaum verwendet.               (1B)"), // Sie werden trotz Zufallsabhängigkeit verwendet, hard to beat O(1) access for any key.
+                        new Choice(true, "Hash-Tabellen sind für geordnete Daten ungeeignet.                                 (1C)"), // Die Reihenfolge der Daten in einer Hashtabelle hängt von der Hashfunktion ab und muss daher nicht der Gewünschten entsprechen.
+                        new Choice(false, "Arrays verwenden wir meist nur wo andere Datenstrukturen nicht passen.             (1D)"), // Arrays sind eher die erste Wahl, die anderen Datenstrukturen kommen zum Einsatz, wenn man zusätzliche Funktionalität benötigt.
+                        new Choice(false, "Arrays sind für die meisten Anwendungen zu ineffizient.                            (1E)") // Arrays sind eine der effizientesten Speicherzugriffe (nach Variablen) da sie sehr direkt die Funktionalität des Arbeitsspeichers bereitstellen.
                 ),
 
                 new Question(
                         "Welche der folgenden Aussagen treffen auf Iteratoren in Java zu?",
 
-                        new Choice(false, "Iteratoren über Bäumen traversieren Bäume meist rekursiv.                          (2A)"),
-                        new Choice(false, "Das Interface Iterator spezifiziert die Methode iterator().                        (2B)"),
-                        new Choice(false, "Eine Collection kann auch mehrere Iterator-Implementierung enthalten.              (2C)"),
-                        new Choice(false, "Ein Iterator hält Kopien aller Daten der iterierten Datenstruktur.                 (2D)"),
-                        new Choice(false, "Mehrere Iteratoren auf dem gleichen Objekt stören sich nicht gegenseitig.          (2E)")
+                        new Choice(false, "Iteratoren über Bäumen traversieren Bäume meist rekursiv.                          (2A)"), // not sure
+                        new Choice(false, "Das Interface Iterator spezifiziert die Methode iterator().                        (2B)"), // Iterator (aus der VO) spezifiziert nur die Methoden hasNext() und next().
+                        new Choice(true, "Eine Collection kann auch mehrere Iterator-Implementierung enthalten.              (2C)"), // Sinnvoll wenn es mehrere Reihenfolgen gibt, in denen die Daten durchgegangen werden können (z.B. wie gespeichert, sortiert, nur bestimmte Elemente).
+                        new Choice(false, "Ein Iterator hält Kopien aller Daten der iterierten Datenstruktur.                 (2D)"), // Normalerweise verweisen Iteratoren auf die Daten ihrer zugehörigen Datenstruktur (um Speicher & Performance zu sparen).
+                        new Choice(true, "Mehrere Iteratoren auf dem gleichen Objekt stören sich nicht gegenseitig.          (2E)") // Normalerweise enthalten Iteratoren ihren eigenen Zustand, der geändert wird, um das nächste Element zu bestimmen und referenzieren lesend auf die Daten.
                 )
 
         );

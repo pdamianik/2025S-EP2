@@ -11,8 +11,7 @@ import AB6.Interfaces.Dinosaur;
 public class TournamentResultIterator {
     private int[] scoreSheet;
     private Dinosaur[] roster;
-
-    // TODO: variable declarations (optional)
+    private int next;
 
     /**
      * Constructs a TournamentResultIterator to iterate over the tournament results.
@@ -21,8 +20,16 @@ public class TournamentResultIterator {
      * @param scoreSheet an array of integers representing the scores (number of wins) of the dinosaurs in the tournament. Must not be {@code null}
      */
     public TournamentResultIterator(Dinosaur[] roster, int[] scoreSheet) {
-        // TODO: implementation
+        this.roster = roster;
+        this.scoreSheet = scoreSheet;
 
+        int maxScore = scoreSheet[0];
+        for (int i = 1; i < roster.length; i++) {
+            if (scoreSheet[i] > maxScore) {
+                this.next = i;
+                maxScore = scoreSheet[i];
+            }
+        }
     }
 
     /**
@@ -36,9 +43,8 @@ public class TournamentResultIterator {
      *         and meet the criteria; {@code false} otherwise.
      */
     public boolean hasNext() {
-        // TODO: implementation
-
-        return false;
+        // no next element was found after the last
+        return next != -1;
     }
 
     /**
@@ -59,8 +65,27 @@ public class TournamentResultIterator {
      * @return the next unprocessed {@code Dinosaur} meeting the criteria, or {@code null} if no suitable dinosaur is found.
      */
     public Dinosaur next() {
-        // TODO: implementation
+        if (!this.hasNext()) return null;
 
-        return null;
+        Dinosaur current = this.roster[this.next];
+
+        int maxScore = -1, maxIndex = -1, lastScore = this.scoreSheet[this.next];
+        // find the maximum smaller than our last element ordered before our last element
+        for (int i = 0; i < this.next; i++) {
+            if (this.scoreSheet[i] > maxScore && this.scoreSheet[i] < lastScore) {
+                maxScore = this.scoreSheet[i];
+                maxIndex = i;
+            }
+        }
+        // find the maximum smaller or equal to our last element ordered after our last element (equal scoring dinos are returned in order)
+        for (int i = this.next + 1; i < this.scoreSheet.length; i++) {
+            if (this.scoreSheet[i] > maxScore && this.scoreSheet[i] <= lastScore) {
+                maxScore = this.scoreSheet[i];
+                maxIndex = i;
+            }
+        }
+        this.next = maxIndex;
+
+        return current;
     }
 }

@@ -5,7 +5,7 @@ import AB6.Interfaces.Dinosaur;
 import AB6.Interfaces.FightingBehavior.Action;
 
 public class ArenaBattleSimulation implements BattleSimulation {
-    // TODO: variable declarations (optional)
+    private static final Action[] BEATS = new Action[] {/* DODGE beats */ Action.BITE, /* TAIL_WHIP beats */ Action.DODGE, /* BITE beats */ Action.TAIL_WHIP};
 
     /**
      * Executes a fight between two dinosaurs based on their respective fighting behaviors.
@@ -27,9 +27,32 @@ public class ArenaBattleSimulation implements BattleSimulation {
      */
     @Override
     public Dinosaur executeFight(Dinosaur dinoA, Dinosaur dinoB) {
-        // TODO: implementation
+        if (dinoA == null && dinoB == null)
+            return null;
+        else if (dinoA == null)
+            return dinoB;
+        else if (dinoB == null)
+            return dinoA;
 
-        return null;
+        this.logFight(dinoA, dinoB);
+
+        var planA = dinoA.getFightingBehavior();
+        var planB = dinoB.getFightingBehavior();
+        int score = 0;
+        for (int round = 0; round < ArenaFightingBehavior.BATTLEPLAN_SIZE; round++) {
+            var actionA = planA.getPlannedAction(round);
+            var actionB = planB.getPlannedAction(round);
+
+            int result = this.executeAction(actionA, actionB);
+            this.logRound(round, actionA, actionB, result);
+            score += result;
+        }
+
+        this.logResult(score, dinoA, dinoB);
+
+        if (score == 0) return null;
+        else if (score < 0) return dinoA;
+        else return dinoB;
     }
 
     /**
@@ -52,9 +75,13 @@ public class ArenaBattleSimulation implements BattleSimulation {
      */
     @Override
     public int executeAction(Action actionA, Action actionB) {
-        // TODO: implementation
-
-        return 0;
+        if (actionA == actionB) return 0;
+        int actionAOrdinal = actionA.ordinal(), actionBOrdinal = actionB.ordinal();
+        if (actionB == Action.NONE || actionAOrdinal < BEATS.length && BEATS[actionAOrdinal] == actionB)
+            return -1;
+        else if (actionA == Action.NONE || actionBOrdinal < BEATS.length && BEATS[actionBOrdinal] == actionA)
+            return 1;
+        else return 0;
     }
 
     /**
