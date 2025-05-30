@@ -14,22 +14,22 @@ public class MCTestAB7 {
                 new Question(
                         "Welche der folgenden Aussagen treffen auf Ausnahmen und Ausnahmebehandlungen in Java zu?",
 
-                        new Choice(false, "'Propagieren einer Ausnahme' bedeutet: 'Ausnahme wird abgefangen'.                 (1A)"),
-                        new Choice(false, "Ausnahmen vom Typ Error sind nicht überprüft (unchecked).                          (1B)"),
-                        new Choice(false, "Ausnahmen vom Typ NullPointerException sind überprüft (checked).                   (1C)"),
-                        new Choice(false, "Das Java-Laufzeitsystem wirft nur überprüfte (checked) Ausnahmen.                  (1D)"),
-                        new Choice(false, "Gibt es mehrere catch-Blöcke, wird der letzte passende ausgeführt.                 (1E)")
+                        new Choice(false, "'Propagieren einer Ausnahme' bedeutet: 'Ausnahme wird abgefangen'.                 (1A)"), // beim Propagieren wird die Ausnahme nach oben weitergegeben
+                        new Choice(true, "Ausnahmen vom Typ Error sind nicht überprüft (unchecked).                          (1B)"), // siehe VO/Folien/Java docs
+                        new Choice(false, "Ausnahmen vom Typ NullPointerException sind überprüft (checked).                   (1C)"), // siehe Java docs, NullPointerException erbt von RuntimeException und ist daher unchecked
+                        new Choice(false, "Das Java-Laufzeitsystem wirft nur überprüfte (checked) Ausnahmen.                  (1D)"), // laut VO, die vom Java-Laufzeitsystem geworfenen Ausnahmen sind Errors und damit unchecked (bsp OutOfMemoryError)/siehe Java docs
+                        new Choice(false, "Gibt es mehrere catch-Blöcke, wird der letzte passende ausgeführt.                 (1E)") // die catch Blöcke werden in der gelisteten Reihenfolge behandelt, d.h. der erste Passende wird ausgeführt
                 ),
 
                 new Question(
                         "Welche der folgenden Aussagen treffen auf Klassen und Interfaces im\n" +
                                 "Java-Collections-Framework zu?",
 
-                        new Choice(false, "TreeSet<E> ist Untertyp von SortedMap<K,V>.                                        (2A)"),
-                        new Choice(false, "LinkedList<E> implementiert ArrayList<E>                                           (2B)"),
-                        new Choice(false, "Queue<E> erweitert Collection<E> um zusätzliche Methoden.                          (2C)"),
-                        new Choice(false, "Set<E> verbietet mehrere gleiche Einträge.                                         (2D)"),
-                        new Choice(false, "In eine Queue<E> kann man neben add auch mittels offer einfügen.                   (2E)")
+                        new Choice(false, "TreeSet<E> ist Untertyp von SortedMap<K,V>.                                        (2A)"), // siehe Java docs, TreeSet ist ein Untertyp von SortedSet
+                        new Choice(false, "LinkedList<E> implementiert ArrayList<E>                                           (2B)"), // siehe Java docs, ArrayList ist eine Klasse und kann daher nicht implementiert werden
+                        new Choice(true, "Queue<E> erweitert Collection<E> um zusätzliche Methoden.                          (2C)"), // siehe Java docs
+                        new Choice(true, "Set<E> verbietet mehrere gleiche Einträge.                                         (2D)"), // siehe Java docs
+                        new Choice(true, "In eine Queue<E> kann man neben add auch mittels offer einfügen.                   (2E)") // siehe Java docs
                 )
         );
     }
