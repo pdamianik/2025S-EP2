@@ -4,6 +4,7 @@ import AB7.Interfaces.Card;
 import AB7.Interfaces.Hand;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Represents a hand of cards in a game of Blackjack.
@@ -11,9 +12,7 @@ import java.util.ArrayList;
  * cards and calculate the hand's current score based on Blackjack rules.
  */
 public class BJHand implements Hand {
-    private ArrayList<Card> cards = null;
-
-    // TODO: variable declarations (optional)
+    private ArrayList<Card> cards;
 
     /**
      * Constructs a new BJHand object representing a hand of cards in Blackjack.
@@ -23,8 +22,7 @@ public class BJHand implements Hand {
      * during the game.</p>
      */
     public BJHand() {
-        // TODO: implementation
-
+        this.cards = new ArrayList<>();
     }
 
     /**
@@ -35,9 +33,7 @@ public class BJHand implements Hand {
      * @return true if the hand contains exactly two cards and their total score is 21, false otherwise
      */
     private boolean isBlackJack() {
-        // TODO: implementation
-
-        return false;
+        return this.getScore() == 100;
     }
 
     /**
@@ -52,9 +48,14 @@ public class BJHand implements Hand {
      */
     @Override
     public int addCard(Card card) throws IllegalOperationException {
-        // TODO: implementation
-
-        return 0;
+        int score = this.getScore();
+        if (score == 100) {
+            throw new IllegalOperationException("Cannot add card to a black jack hand.");
+        } else if (score == 0 && !this.cards.isEmpty()) {
+            throw new IllegalOperationException("Cannot add card to a busted hand.");
+        }
+        this.cards.add(card);
+        return this.getScore();
     }
 
     /**
@@ -73,9 +74,19 @@ public class BJHand implements Hand {
      */
     @Override
     public int getScore() {
-        // TODO: implementation
-
-        return 0;
+        int scoreWithoutAces = this.cards.stream()
+                .filter(card -> card.getValue() != Card.Value.ACE)
+                .mapToInt(Card::getScore)
+                .sum();
+        int aceCount = (int) this.cards.stream() // cast is safe since there can only be 4 aces and a total of 52 cards
+                .filter(card -> card.getValue() == Card.Value.ACE)
+                .count();
+        int score = scoreWithoutAces + aceCount;
+        if (score > 21) return 0; // busted
+        if (aceCount > 0 && score <= 11) {
+            score += 10; // possibly count at most one ace as value 11 (since two 11 aces would already count as 22)
+        }
+        return this.cards.size() == 2 && score == 21 ? 100 : score;
     }
 
     /**
@@ -86,7 +97,7 @@ public class BJHand implements Hand {
      */
     @Override
     public void clear() {
-        // TODO: implementation
+        this.cards.clear();
 
     }
 
@@ -98,9 +109,11 @@ public class BJHand implements Hand {
      */
     @Override
     public Hand clone() {
-        // TODO: implementation
-
-        return null;
+        BJHand newHand = new BJHand();
+        newHand.cards = this.cards.stream()
+                .map(card -> new BJCard(card.getSuit(), card.getValue()))
+                .collect(Collectors.toCollection(ArrayList::new));
+        return newHand;
     }
 
     /**
@@ -110,8 +123,6 @@ public class BJHand implements Hand {
      */
     @Override
     public String toString() {
-        // TODO: implementation
-
-        return null;
+        return this.cards.toString();
     }
 }
