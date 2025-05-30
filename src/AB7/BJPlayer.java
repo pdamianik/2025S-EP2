@@ -11,13 +11,8 @@ import AB7.Interfaces.Hand;
  * and calculating the current hand's score, while ensuring compliance with game rules.</p>
  */
 public class BJPlayer {
-    // TODO: uncomment this declaration. Do not alter its signature!
-    // private final Hand hand;        // the hand of cards the player uses in all his games of Blackjack
-
-    // TODO: uncomment this declaration. Do not alter its signature!
-    // private final Dealer dealer;    // the dealer responsible for managing the deck and dealing cards
-
-    // TODO: variable declarations (optional)
+     private final Hand hand;        // the hand of cards the player uses in all his games of Blackjack
+     private final Dealer dealer;    // the dealer responsible for managing the deck and dealing cards
 
     /**
      * Constructs a new BJPlayer object that participates in a game of Blackjack.
@@ -27,7 +22,8 @@ public class BJPlayer {
      * @param dealer the dealer responsible for managing the deck and dealing cards. Must not be {@code null}.
      */
     public BJPlayer(Hand hand, Dealer dealer) {
-        // TODO: implementation
+        this.hand = hand;
+        this.dealer = dealer;
 
     }
 
@@ -41,9 +37,11 @@ public class BJPlayer {
      * @throws BadDeckException          if the deck cannot provide any card
      */
     public Hand startGame() throws IllegalOperationException, BadDeckException {
-        // TODO: implementation
-
-        return null;
+        this.hand.clear();
+        for (int i = 0; i < 2; i++) {
+            this.hand.addCard(this.dealer.dealCard());
+        }
+        return this.hand.clone();
     }
 
     /**
@@ -56,9 +54,12 @@ public class BJPlayer {
      * @throws BadDeckException if the dealer's deck cannot provide a card for any reason
      */
     public Hand hit() throws BadDeckException {
-        // TODO: implementation
-
-        return null;
+        try {
+            this.hand.addCard(this.dealer.dealCard());
+        } catch (IllegalOperationException e) {
+            System.err.println(e.getMessage());
+        }
+        return this.hand.clone();
     }
 
     /**
@@ -67,8 +68,6 @@ public class BJPlayer {
      * @return the total score of the player's current hand.
      */
     public int getScore() {
-        // TODO: implementation
-
-        return 0;
+        return this.hand.getScore();
     }
 }
