@@ -4,6 +4,7 @@ import AB7.Interfaces.Card;
 import AB7.Interfaces.Deck;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Class represents a full deck of 52 playing cards for the game of Blackjack.
@@ -17,16 +18,19 @@ import java.util.ArrayList;
  * is shuffled.</p>
  */
 public class BJDeck implements Deck {
-    private ArrayList<Card> cards = null;
-
-    // TODO: variable declarations (optional)
+    private ArrayList<Card> cards;
+    private int drawn = 0;
 
     /**
      * Creates the deck of 52 cards for a game of Blackjack.
      */
     public BJDeck() {
-        // TODO: implementation
-
+        this.cards = new ArrayList<>(52);
+        for (Card.Suit suit : Card.Suit.values()) {
+            for (Card.Value value : Card.Value.values()) {
+                this.cards.add(new BJCard(suit, value));
+            }
+        }
     }
 
     /**
@@ -38,9 +42,8 @@ public class BJDeck implements Deck {
      */
     @Override
     public Card drawCard() throws OutOfCardsException {
-        // TODO: implementation
-
-        return null;
+        if (this.drawn >= this.cards.size()) throw new OutOfCardsException("Cannot draw a card from an empty deck.");
+        return this.cards.get(this.drawn++);
     }
 
     /**
@@ -51,8 +54,8 @@ public class BJDeck implements Deck {
      */
     @Override
     public void shuffle() {
-        // TODO: implementation
-
+        Collections.shuffle(this.cards);
+        this.drawn = 0;
     }
 
 }
