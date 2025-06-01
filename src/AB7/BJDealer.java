@@ -83,8 +83,8 @@ public class BJDealer implements Dealer {
     @Override
     public int playAction(Hand dealerHand) throws BadDeckException {
         int score = dealerHand.getScore();
-        if (0 == score || score >= 17) return score;
-        return dealerHand.addCard(this.dealCard());
+        while (0 != score && score <= 16) score = dealerHand.addCard(this.dealCard());
+        return score;
     }
 
 }
