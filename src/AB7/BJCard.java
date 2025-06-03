@@ -9,7 +9,8 @@ import AB7.Interfaces.Card;
  * It also includes functionality to calculate the score based on the card's value.
  */
 public class BJCard implements Card {
-    // TODO: variable declarations (optional)
+    private final Suit suit;
+    private final Value value;
 
     /**
      * Constructs a new BJCard object representing a playing card in the game of Blackjack.
@@ -18,8 +19,8 @@ public class BJCard implements Card {
      * @param value the value of the card, such as TWO, THREE, TEN, JACK, QUEEN, KING, or ACE
      */
     public BJCard(Suit suit, Value value) {
-        // TODO: implementation
-
+        this.suit = suit;
+        this.value = value;
     }
 
     /**
@@ -30,9 +31,7 @@ public class BJCard implements Card {
      */
     @Override
     public Suit getSuit() {
-        // TODO: implementation
-
-        return null;
+        return this.suit;
     }
 
     /**
@@ -43,9 +42,7 @@ public class BJCard implements Card {
      */
     @Override
     public Value getValue() {
-        // TODO: implementation
-
-        return null;
+        return this.value;
     }
 
     /**
@@ -58,9 +55,11 @@ public class BJCard implements Card {
      */
     @Override
     public int getScore() {
-        // TODO: implementation
-
-        return 0;
+        return switch (this.value) {
+            case JACK, QUEEN, KING -> 10;
+            case ACE -> 11;
+            default -> this.value.ordinal() - Value.TWO.ordinal() + 2;
+        };
     }
 
     /**
@@ -72,9 +71,7 @@ public class BJCard implements Card {
      */
     @Override
     public String toString() {
-        // TODO: implementation
-
-        return null;
+        return String.format("%s of %s (%d)", this.value, this.suit, this.getScore());
     }
 
     /**
@@ -86,8 +83,9 @@ public class BJCard implements Card {
      */
     @Override
     public boolean equals(Object obj) {
-        // TODO: implementation
-
+        if (this == obj) return true;
+        else if (obj instanceof BJCard card)
+            return this.suit == card.suit && this.value == card.value;
         return false;
     }
 

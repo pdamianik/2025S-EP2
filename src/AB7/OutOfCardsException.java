@@ -9,8 +9,6 @@ package AB7;
  * @see RuntimeException
  */
 public class OutOfCardsException extends Exception {
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs a new OutOfCardsException with the specified detail message.
      * This exception is thrown to indicate that an attempt has been made to draw a card
@@ -19,7 +17,6 @@ public class OutOfCardsException extends Exception {
      * @param message the detail message, which provides further information about the exception
      */
     public OutOfCardsException(String message) {
-        // TODO: implementation
-
+        super(message);
     }
 }

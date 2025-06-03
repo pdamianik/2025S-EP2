@@ -8,8 +8,6 @@ package AB7;
  * @see RuntimeException
  */
 public class BadDeckException extends RuntimeException {
-    // TODO: variable declarations (optional)
-
     /**
      * Constructs a new BadDeckException with the specified detail message and cause.
      *
@@ -17,7 +15,6 @@ public class BadDeckException extends RuntimeException {
      * @param cause   the cause of the exception, which can be used to retrieve the underlying issue
      */
     public BadDeckException(String message, Throwable cause) {
-        // TODO: implementation
-
+        super(message, cause);
     }
 }

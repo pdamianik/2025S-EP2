@@ -14,10 +14,7 @@ import AB7.Interfaces.Hand;
  * that a dealer must perform, such as dealing cards, shuffling the deck, and participating in the game.</p>
  */
 public class BJDealer implements Dealer {
-    // TODO: uncomment this declaration. Do not alter its signature!
-    // private final Deck deck;  // the deck of cards the dealer operates with
-
-    // TODO: variable declarations (optional)
+     private final Deck deck;  // the deck of cards the dealer operates with
 
     /**
      * Constructs a new BJDealer object and initializes it with the specified deck of cards.
@@ -27,8 +24,8 @@ public class BJDealer implements Dealer {
      *             It must not be {@code null}.
      */
     public BJDealer(Deck deck) {
-        // TODO: implementation
-
+        this.deck = deck;
+        this.deck.shuffle();
     }
 
     /**
@@ -40,9 +37,15 @@ public class BJDealer implements Dealer {
      */
     @Override
     public Card dealCard() throws BadDeckException {
-        // TODO: implementation
-
-        return null;
+        try {
+            return this.deck.drawCard();
+        } catch (OutOfCardsException ignored) {} // reshuffle and try again
+        this.deck.shuffle();
+        try {
+            return this.deck.drawCard();
+        } catch (OutOfCardsException e) {
+            throw new BadDeckException("Cannot deal a card from an empty deck.", e);
+        }
     }
 
     /**
@@ -50,7 +53,7 @@ public class BJDealer implements Dealer {
      */
     @Override
     public void shuffleDeck() {
-        // TODO: implementation
+        this.deck.shuffle();
 
     }
 
@@ -79,9 +82,9 @@ public class BJDealer implements Dealer {
      */
     @Override
     public int playAction(Hand dealerHand) throws BadDeckException {
-        // TODO: implementation
-
-        return 0;
+        int score = dealerHand.getScore();
+        while (0 != score && score <= 16) score = dealerHand.addCard(this.dealCard());
+        return score;
     }
 
 }

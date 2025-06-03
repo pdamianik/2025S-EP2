@@ -14,10 +14,10 @@ public class MCTestAB7 {
                 new Question(
                         "Welche der folgenden Aussagen treffen auf Ausnahmen und Ausnahmebehandlungen in Java zu?",
 
-                        new Choice(false, "'Propagieren einer Ausnahme' bedeutet: 'Ausnahme wird abgefangen'.                 (1A)"), // beim Propagieren wird die Ausnahme nach oben weitergegeben
+                        new Choice(false, "'Propagieren einer Ausnahme' bedeutet: 'Ausnahme wird abgefangen'.                 (1A)"), // beim Propagieren wird die Ausnahme "nach oben" (an den Aufrufer) weitergegeben
                         new Choice(true, "Ausnahmen vom Typ Error sind nicht überprüft (unchecked).                          (1B)"), // siehe VO/Folien/Java docs
                         new Choice(false, "Ausnahmen vom Typ NullPointerException sind überprüft (checked).                   (1C)"), // siehe Java docs, NullPointerException erbt von RuntimeException und ist daher unchecked
-                        new Choice(false, "Das Java-Laufzeitsystem wirft nur überprüfte (checked) Ausnahmen.                  (1D)"), // laut VO, die vom Java-Laufzeitsystem geworfenen Ausnahmen sind Errors und damit unchecked (bsp OutOfMemoryError)/siehe Java docs
+                        new Choice(false, "Das Java-Laufzeitsystem wirft nur überprüfte (checked) Ausnahmen.                  (1D)"), // laut VO, die vom Java-Laufzeitsystem geworfenen Ausnahmen sind Errors und damit unchecked (bsp OutOfMemoryError)/siehe auch Java docs
                         new Choice(false, "Gibt es mehrere catch-Blöcke, wird der letzte passende ausgeführt.                 (1E)") // die catch Blöcke werden in der gelisteten Reihenfolge behandelt, d.h. der erste Passende wird ausgeführt
                 ),
 

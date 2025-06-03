@@ -59,7 +59,7 @@ public class Application {
                                 }
                                 break;
                             case 's':   // stay -> no more cards
-                                System.out.println("Player stays. The final hand is: " + " (" + player.getScore() + ")");
+                                System.out.println("Player stays. The final hand is: "  + " (" + player.getScore() + ")");
                                 loop = false;
                                 break;
                             case 'q':
@@ -92,8 +92,5 @@ public class Application {
 
             System.out.println();
         }
-
-        // TODO: implementation of any developer specific tests (optional)
-
     }
 }
